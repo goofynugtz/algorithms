@@ -3,8 +3,10 @@ using namespace std;
 
 void deques() {
 
-    //Deque is also a dynamic array like vectors.
-    //Has push_front() and pop_front() functions which is not available in vectors
+    //Deque is a combo of stack and queue.
+    //Deque is also a dynamic array like vectors with,
+    //push_front() and pop_front() functions which is not available in vectors
+    
     //SLOWER THAN VECTORS
 
     deque<int> deq;

@@ -1,5 +1,8 @@
 Default_Syntax.cpp
 NumberTheory/QPrimePrime.cpp
-DataStructures/.vscode/
 *.exe
-.vscode/
+.vscode
+GreedyAlgorithms
+CompleteSearch
+BinarySearch.cpp
+lcmAndGcd.cpp
