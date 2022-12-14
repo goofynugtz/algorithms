@@ -11,15 +11,26 @@ void setIO(){
     freopen("output.txt","w",stdout);
   #endif
 }
-// WARN: incomplete
-bool detectCycle(int i, int parent, vector<int> adj[], vector<bool>& visited){
-  visited[i] = 1;
-  for (auto it: adj[i]){
-    if (it != parent){
-      if (visited[it]) return true;
-      else if (detectCycle(it, i, adj, visited)) return true;
-    }
+
+bool dfs(int src, int parent, vector<int> adj[], vector<int>& visited){
+  visited[src] = 1;
+  for (auto it: adj[src]){
+    if (!visited[it])
+      if (dfs(it, src, adj, visited)) 
+        return true;
+    else
+      if (it != parent) return true;
   }
+  return false;
+}
+
+bool detectCycle(int n, vector<int> adj[]){
+  vector<int> visited(n,0);
+  visited[0] = 1;
+  for (int i = 0; i < n; i++)
+    if (!visited[i])
+      if (dfs(i, -1, adj, visited)) 
+        return true;
   return false;
 }
 
@@ -33,8 +44,7 @@ int main(void){
     adj[v].push_back(u);
   }
 
-  vector<bool> visited(n, 0);
-  cout << detectCycle(0, -1, adj, visited);
+  cout << detectCycle(n, adj);
 
   return 0;
 }

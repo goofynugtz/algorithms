@@ -13,13 +13,39 @@ void setIO(){
   #endif
 }
 
-void detectCycle(int n, vector<int> adj[], int src, vector<bool>& visited){
-  visited[src] = 1;
-  // WARN: Incomplete. Start again.
+bool dfs(int i, int src, int parent, vector<int> adj[], vector<int>& visited, vector<int>& trip){
+  visited[i] = 1;
+  trip.push_back(i);
+  for (auto &it: adj[i]){
+    if (!visited[it]){
+      if (dfs(it, src, i, adj, visited, trip)){
+        return true;
+      }
+    } else if (it != parent){
+      trip.push_back(it);
+      return true;
+    }
+  }
+  trip.pop_back();
+  return false;
 }
 
 vector<int> roundTrip(int n, vector<int> adj[]){
-
+  vector<int> visited(n+1, 0);
+  vector<int> trip;
+  for (int i = 1; i <= n; i++){
+    if (!visited[i]){
+      if (dfs(i, i, -1, adj, visited, trip)){
+        vector<int> ans;
+        for (int j = trip.size()-1; j >= 0; j--){
+          ans.push_back(trip[j]);
+          if (trip[j] == trip[trip.size()-1] && j+1 != trip.size()) break;
+        }
+        return ans;
+      }
+    }
+  }
+  return {-1};
 }
 
 int main(void){
@@ -34,9 +60,17 @@ int main(void){
   }
   vector<int> path = roundTrip(n, adj);
   if (path[0] != -1){
-    for (int i = 1; i <= n; i++) cout << path[i] << " ";
+    cout << path.size() << "\n";
+    for (auto &it:path) cout << it << " ";
     cout << "\n";
   } else cout << "IMPOSSIBLE\n";
-  
   return 0;
 }
+
+/* 
+WARN: Working online but not offline
+4 3
+2 3
+3 4
+2 4
+*/
