@@ -14,11 +14,11 @@ void setIO(){
     freopen("output.txt","w",stdout);
   #endif
 }
+
 bool isSum(vector<int>& arr, int index, int sum, vector<vector<int>>& DP){
   if (sum > 0 && index == 0) return DP[index][sum] = 0;
   if (sum == 0) return DP[index][sum] = 1;
   if (DP[index][sum] != -1) return DP[index][sum];
-
   if (sum >= arr[index-1])
     return DP[index][sum] = isSum(arr, index-1, sum-arr[index-1], DP) || isSum(arr, index-1, sum, DP);
   return DP[index][sum] = isSum(arr, index-1, sum, DP);
@@ -37,8 +37,8 @@ bool isSubsetSum(vector<int>& arr, int sum){
 }
 
 signed main(void){
-  // setIO();
+  setIO();
   vector<int> arr = {3,34,4,12,5,2};
-  cout << isSubsetSum(arr, 13) << "\n";
+  cout << isSubsetSum(arr, 14) << "\n";
   return 0;
 }
