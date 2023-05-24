@@ -43,7 +43,7 @@ ll minimizingCoins(vector<ll>& coins, int x){
 }
 
 int main(void){
-  setIO();
+  // setIO();
   int n; ll x; cin >> n >> x;
   vector<ll> coins(n);
   for (int i = 0; i < n; i++) cin >> coins[i];

@@ -23,13 +23,13 @@ ll combinations(ll target, int face, vector<vector<ll>>& DP){
   if (DP[target][face] != 0) return DP[target][face];
   DP[target][face] = 0;
   for (int i = 1; i <= 6; i++)
-    if (target-i >= 0)
+    if (target >= i)
       DP[target][face] += combinations(target-i, i, DP) % MOD;
   return DP[target][face] % MOD;
 }
 
 int main(void){
-  setIO();
+  // setIO();
   ll n; cin >> n;
   vector<vector<ll>> DP(n+1, vector<ll>(7, 0));
   cout << combinations(n, 1, DP) << "\n";
