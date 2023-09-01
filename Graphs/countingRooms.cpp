@@ -11,7 +11,7 @@ void setIO(){
   #endif
 }
  
-void dfs(int n, int m, vector<vector<char>>& adjMat, vector<vector<bool>>& visited){
+void bfs(int n, int m, vector<vector<char>>& adjMat, vector<vector<bool>>& visited){
   if (visited[n][m]) return;
   visited[n][m] = 1;
   queue<pair<int,int>> q;
@@ -64,7 +64,7 @@ int main(void){
     for (int j = 0; j < m; j++){
       if (!visited[i][j] && adjMat[i][j] == '.'){
         result++;
-        dfs(i, j, adjMat, visited);
+        bfs(i, j, adjMat, visited);
       }
     }
   }
