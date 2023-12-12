@@ -26,11 +26,11 @@ vector<int> bellmanFord(int n, vector<vector<int>>& edges, int source){
   }
   for (auto it: edges){
     int u = it[0];
-      int v = it[1];
-      int wt = it[2];
-      if (distance[u] != 1e8 && distance[u]+wt < distance[v]){
-        return {-1};
-      }
+    int v = it[1];
+    int wt = it[2];
+    if (distance[u] != 1e8 && distance[u]+wt < distance[v]){
+      return {-1};
+    }
   }
   return distance;
 }
