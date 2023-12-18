@@ -56,7 +56,7 @@ void _print(pbds v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} ce
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 /* -------------------------------------------- */
-ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
+ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1) res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
 ll mminvprime(ll a, ll b) {return expo(a, b - 2, b);}
 bool revsort(ll a, ll b) {return a > b;}
 ll combination(ll n, ll r, ll m, ll *fact, ll *ifact) {ll val1 = fact[n]; ll val2 = ifact[n - r]; ll val3 = ifact[r]; return (((val1 * val2) % m) * val3) % m;}
@@ -78,14 +78,25 @@ void setIO() {
   #endif 
 }
 
-void solve(){
-
+void solve(vector<ll>& bits){
+  ll t, v; cin >> t >> v;
+  if (t == 1){
+    bits[v]++;
+  } else {
+    for (ll i = 29; i >= 0; i--){
+      ll mini = min(ll(v >> i), bits[i]);
+      v -= mini*(pow(2,i));
+    }
+    if (v == 0) cout << "YES\n";
+    else cout << "NO\n";
+  }
 };
 
 int main(void){
   setIO();
   ll t; cin >> t;
-  while (t--) solve();
+  vector<ll> bits(31, 0);
+  while (t--) solve(bits);
 
   return 0;
 }

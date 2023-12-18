@@ -79,7 +79,22 @@ void setIO() {
 }
 
 void solve(){
+  string s; cin >> s;
+  ll n = s.length();
 
+  vector<ll> count(2, 0);
+  for (ll i = 0; i < n; i++){
+    count[s[i]-'0']++;
+  }
+  for (ll i = 0; i < n; i++){
+    ll req = (s[i]-'0')^1;
+    if (count[req] <= 0){
+      cout << n-i << endl;
+      return;
+    }
+    count[req]--;
+  }
+  cout << 0 << endl;
 };
 
 int main(void){

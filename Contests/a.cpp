@@ -78,9 +78,24 @@ void setIO() {
   #endif 
 }
 
+bool isValid(string& s1, string& s2){
+  if (s2[0] == '0') return false;
+  if (stoi(s1) < stoi(s2)) return true;
+  return false;
+}
+
 void solve(){
-  int x; cin >> x;
-  cout << x;
+  string s; cin >> s; bool flag = 1;
+  for (ll i = 1; i < s.length(); i++){
+    string s1 = s.substr(0, i);
+    string s2 = s.substr(i, s.length()-i);
+    if (isValid(s1, s2)){
+      cout << s1 << " " << s2 << "\n";
+      flag = 0; 
+      break;
+    }
+  }
+  if (flag) cout << "-1\n";
 };
 
 int main(void){
