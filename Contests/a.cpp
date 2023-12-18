@@ -38,9 +38,7 @@ void _print(lld t) { cerr << t; }
 void _print(double t) { cerr << t; }
 void _print(ull t) { cerr << t; }
 
-// ostream<vector> overload
 template <typename T> ostream& operator<<(ostream& os, const vector<T>& v) { os << "[ "; for (int i = 0; i < v.size(); ++i) { os << v[i]; if (i != v.size() - 1) os << " "; } os << " ]"; return os; }
-// ostream<pair> overload
 template <typename T, typename U> ostream& operator<<(ostream& os, const pair<T, U>& p) { os << "{" << p.ff << ", " << p.ss << "}"; return os; }
 
 template <class T, class V> void _print(pair <T, V> p);
@@ -80,45 +78,15 @@ void setIO() {
   #endif 
 }
 
-struct Interactor {
-  private:
-    ll hidden_number;
-    ll queries;
-    ll max_limit;
-    bool debug;
-  public:
-    Interactor(ll hn, ll limit = 10, bool d = false){
-      hidden_number = hn;
-      queries = 0;
-      max_limit = limit;
-      debug = d;
-    }
-
-    void __can_query(){ 
-      if(queries >= max_limit) cout << "Made more than limit queries for " << hidden_number << endl; 
-      assert(queries < max_limit); 
-    }
-
-    char make_query(ll x){
-      __can_query(); queries++;
-      // TODO: Your Implementation
-    }
-
-    void validate(ll x){
-      if(x != hidden_number) cout << "Failed for " << hidden_number << endl;
-      else cout << "Passed for " << hidden_number << endl;
-    }
+void solve(){
+  int x; cin >> x;
+  cout << x;
 };
-
-void solve();
 
 int main(void){
   setIO();
-  auto start = high_resolution_clock::now();
-  solve();
-  auto stop = high_resolution_clock::now();
-  auto duration = duration_cast<microseconds>(stop - start);
+  ll t; cin >> t;
+  while (t--) solve();
 
-  cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
   return 0;
 }

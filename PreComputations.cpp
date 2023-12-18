@@ -36,3 +36,9 @@ void calcFactorial(){
     factorial[i] = (i*factorial[i-1]);
   }
 }
+
+// PreCompute Prime and Composite numbers
+vector<bool> compute_primes(ll n){ vector<bool> isPrime(n, 1); isPrime[0] = isPrime[1] = 0; for (int i = 2; i*i <= n; i++) if (isPrime[i]) for (int j = i*i; j < n; j+=i) isPrime[j] = 0; return isPrime; }
+
+// PreCompute all prime numbers
+vector<ll> sieve(ll n){ ll*arr = new ll[n + 1](); vector<ll> primes; for (ll i = 2; i <= n; i++) if (arr[i] == 0){ primes.push_back(i); for (ll j = 2 * i; j <= n; j += i) arr[j] = 1; } return primes; }

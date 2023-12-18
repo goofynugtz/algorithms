@@ -1,3 +1,4 @@
+// https://codeforces.com/problemset/problem/679/A
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -5,6 +6,7 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+#include <unistd.h>
 
 using namespace std;
 using namespace chrono;
@@ -38,9 +40,7 @@ void _print(lld t) { cerr << t; }
 void _print(double t) { cerr << t; }
 void _print(ull t) { cerr << t; }
 
-// ostream<vector> overload
 template <typename T> ostream& operator<<(ostream& os, const vector<T>& v) { os << "[ "; for (int i = 0; i < v.size(); ++i) { os << v[i]; if (i != v.size() - 1) os << " "; } os << " ]"; return os; }
-// ostream<pair> overload
 template <typename T, typename U> ostream& operator<<(ostream& os, const pair<T, U>& p) { os << "{" << p.ff << ", " << p.ss << "}"; return os; }
 
 template <class T, class V> void _print(pair <T, V> p);
@@ -62,8 +62,6 @@ ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a
 ll mminvprime(ll a, ll b) {return expo(a, b - 2, b);}
 bool revsort(ll a, ll b) {return a > b;}
 ll combination(ll n, ll r, ll m, ll *fact, ll *ifact) {ll val1 = fact[n]; ll val2 = ifact[n - r]; ll val3 = ifact[r]; return (((val1 * val2) % m) * val3) % m;}
-vector<ll> sieve(int n) {int*arr = new int[n + 1](); vector<ll> vect; for (int i = 2; i <= n; i++) if (arr[i] == 0) { vect.push_back(i); for (int j = 2 * i; j <= n; j += i) arr[j] = 1; } return vect; }
-vector<bool> compute_primes(ll n){ vector<bool> isPrime(n, 1); isPrime[0] = isPrime[1] = 0; for (int i = 2; i*i <= n; i++) if (isPrime[i]) for (int j = i*i; j < n; j+=i) isPrime[j] = 0; return isPrime; }
 
 ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) % m;}
 ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
@@ -75,20 +73,36 @@ ll getRandomNumber(ll l, ll r) {return uniform_int_distribution<ll>(l, r)(rng);}
 void setIO() { 
   fast; 
   #ifndef ONLINE_JUDGE 
-    freopen("input.txt","r",stdin); 
-    freopen("output.txt","w",stdout); 
+    // freopen("input.txt","r",stdin); 
+    // freopen("output.txt","w",stdout); 
   #endif 
+}
+
+vector<bool> compute_primes(ll n){
+  vector<bool> isPrime(n+1, 1);
+  isPrime[0] = isPrime[1] = 0;
+  for (int i = 2; i*i <= n; i++)
+    if (isPrime[i])
+      for (int j = i*i; j <= n; j+=i) 
+        isPrime[j] = 0;
+  return isPrime;
 }
 
 struct Interactor {
   private:
     ll hidden_number;
+    string answer;
+    vector<bool> isPrime;
     ll queries;
     ll max_limit;
     bool debug;
   public:
-    Interactor(ll hn, ll limit = 10, bool d = false){
-      hidden_number = hn;
+    Interactor(ll n, ll limit = 10, bool d = false){
+      hidden_number = n;
+      isPrime = compute_primes(n);
+      // sleep(2);
+      answer = isPrime[hidden_number] ? "prime" : "composite";
+      cout << n << " " << isPrime[hidden_number] << " " << answer << "\n";
       queries = 0;
       max_limit = limit;
       debug = d;
@@ -99,18 +113,48 @@ struct Interactor {
       assert(queries < max_limit); 
     }
 
-    char make_query(ll x){
+    string make_query(ll x){
       __can_query(); queries++;
-      // TODO: Your Implementation
+      if (debug) cout << "? " << x << endl;
+
+      if (hidden_number % x == 0) return "yes";
+      else return "no";
     }
 
-    void validate(ll x){
-      if(x != hidden_number) cout << "Failed for " << hidden_number << endl;
-      else cout << "Passed for " << hidden_number << endl;
+    void validate(string s){
+      cout << answer << " " << s << "\n";
+      answer == s ? cout << "Passed for " << s << endl : cout << "Failed for " << s << endl;
+    }
+
+    void show_answer(){
+      cout << hidden_number << endl;
     }
 };
 
-void solve();
+
+void solve() {
+  Interactor intrctr = Interactor(64, 20, true);
+  vector<bool> isPrime = compute_primes(101);
+  cerr << isPrime << endl;
+  ll countPrimeFactors = 0, tries = 0;
+
+  for (ll i = 2; i < isPrime.size() && tries < 20; i++){
+    tries++;
+    string response; 
+    // cin >> response;
+    response = intrctr.make_query(i);
+    cout << response << endl;
+    if (response == "yes"){
+      countPrimeFactors++;
+
+      if (countPrimeFactors > 1) break;
+    } else if (response == "no") continue;
+  }
+  if (countPrimeFactors > 1) intrctr.validate("composite");
+  else intrctr.validate("prime");
+  // if (countPrimeFactors > 1) cout << "composite" << endl;
+  // else cout << "prime" << endl;
+}
 
 int main(void){
   setIO();
@@ -119,6 +163,6 @@ int main(void){
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 
-  cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
+  cerr << endl << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
   return 0;
 }
