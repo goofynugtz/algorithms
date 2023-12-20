@@ -81,23 +81,40 @@ void setIO() {
 
 struct Interactor {
   private:
-    ll hidden_number, queries, max_limit; bool debug;
+    vector<ll> hidden; ll queries, max_limit; bool debug;
   public:
-    Interactor(ll hn, ll limit = 10, bool d = false){ hidden_number = hn; queries = 0; max_limit = limit; debug = d; }
-    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden_number << endl; assert(queries < max_limit); }
+    Interactor(vector<ll> h, ll limit = 10, bool d = false){ hidden = h; queries = 0; max_limit = limit; debug = d; }
+    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
 
-    char make_query(ll x){
+    char make_query(ll l, ll r){
       __can_query(); queries++;
-      // TODO: Your Implementation
+      ll res = 0;
+      for (ll i = l; i <= r; i++) res += hidden[i];
+      return res;
     }
 
-    void validate(ll x){
-      if(x != hidden_number) cout << "Failed for " << hidden_number << endl;
-      else cout << "Passed for " << hidden_number << endl;
+    void validate(vector<ll>& x){
+      if(x != hidden) cout << "Failed for " << hidden << endl;
+      else cout << "Passed for " << hidden << endl;
     }
 };
 
-void solve();
+void solve(){
+  vector<ll> test = {1, 4, 4, 6, 7, 8};
+  ll n = test.size();
+  Interactor intrctr = Interactor(test, n, true);
+  map<pair<ll,ll>,ll> m;
+  vector<ll> res(n, -1);
+  for (ll i = 1; i <= n; i+=3){
+    ll total = intrctr.make_query(i, i+2);
+    ll rh = intrctr.make_query(i+1, i+2);
+    ll lh = intrctr.make_query(i, i+1);
+    res[i-1] = total - rh;
+    res[i+1] = total - lh;
+    res[i] = total - res[i-1] - res[i+1];
+  }
+  cerr << res << "\n";
+}
 
 int main(void){
   setIO();

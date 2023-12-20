@@ -84,25 +84,7 @@ void solve(){
   ll n; cin >> n;
   vector<ll> a(n);
   for (ll i = 0; i < n; i++) cin >> a[i];
-  
-  sort(a.begin(), a.end());
-  
-  vector<ll> cursed;
-  vector<ll> good;
-  ll i = 0, j = 1, sum = a[0];
-  good.push_back(a[0]);
 
-  while (i < n && j < n){
-    if (sum < a[j]){
-      good.push_back(a[j]);
-      sum += a[j++];
-      i++;
-    } else {
-      cursed.push_back(a[j++]);
-    }
-  }
-  cout << cursed.size() << "\n";
-  cout << good << cursed << "\n";
   
 };
 

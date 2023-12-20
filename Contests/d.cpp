@@ -82,25 +82,9 @@ void setIO() {
 
 void solve(){
   ll n; cin >> n;
-  vector<ll> a(n), b(n), c(n);
-  multiset<pair<ll,ll>> x, y;
+  vector<ll> a(n);
   for (ll i = 0; i < n; i++) cin >> a[i];
-  for (ll i = 0; i < n; i++) cin >> b[i];
-  for (ll i = 0; i < n; i++) cin >> c[i];
 
-  for (ll i = 0; i < n; i++){
-    x.insert({b[i], i});
-    y.insert({b[i], i});
-  }
-  cerr << a << "| " << b << "| " << c << "\n";
-  cerr << x << "\n\n";
-
-  for (ll i = 0; i < n; i++){
-    cerr << *((x.begin())) << " " << *((x.rbegin())) << "\n";
-    cerr << *(++(x.begin())) << " " << *(++(x.rbegin())) << "\n";
-    cerr << *((x.begin())) << " " << *((x.rbegin())) << "\n";
-    cerr << *(--(x.begin())) << " " << *(--(x.rbegin())) << " " << *(--(--(x.rbegin()))) << " " << *(--(--(--(x.rbegin())))) << " " << *(--(--(--(--(x.rbegin()))))) << "\n\n";
-  }
 };
 
 int main(void){

@@ -67,7 +67,7 @@ ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) %
 ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
 ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}  //only for prime m
-ll getRandomNumber(ll l, ll r) {return uniform_int_distribution<ll>(l, r)(rng);} 
+ll getRandomNumber(ll l, ll r) { return uniform_int_distribution<ll>(l, r)(rng); }
 /* -------------------------------------------- */
 
 void setIO() { 
@@ -80,19 +80,8 @@ void setIO() {
 
 void solve(){
   ll n; cin >> n;
-  string s; cin >> s;
-  unordered_map<ll, ll> m;
-  for (auto i: s){
-    m[i-'A']++;
-  }
-  ll ans = 0;
-  for (auto i: m){
-    if (i.second >= i.first+1){
-      ans++;
-    }
-  }
-  cout << ans << "\n";
-
+  if (n == 1 || n == 2 || n == 5) cout << "NO\n";
+  else cout << "YES\n";
 };
 
 int main(void){

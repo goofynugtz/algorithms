@@ -79,24 +79,24 @@ void setIO() {
 }
 
 void solve(){
-  ll n, k; cin >> n >> k;
+  ll n; cin >> n;
   vector<ll> a(n);
   for (ll i = 0; i < n; i++) cin >> a[i];
   
-  vector<ll> b(n);
-  for (ll i = 0; i < n; i++) cin >> b[i];
-
-  vector<ll> pref(n, 0);
-  pref[0] = a[0];
-  for (ll i = 1; i < n; i++) pref[i] = a[i] + pref[i-1];
-  
-  vector<ll> bmax(n, 0);
-  bmax[0] = b[0];
-  for (ll i = 1; i < n; i++) bmax[i] = max(b[i], bmax[i-1]);
-
-  ll score = 0;
-  for (ll i = 0; i < min(n,k); i++)
-    score = max(score, pref[i] + (k-i-1)*bmax[i]);
+  cerr << "\n";
+  ll score = 0, one = 0, zero = 0;
+  for (ll i = 0; i < n; i++){
+    if (a[i] == 1){
+      one++;
+    }
+    else if (a[i] == 0){
+      zero++;
+    }
+    if (zero > 0 && one > 0){
+      score += min(zero, one);
+      zero--; one--;
+    }
+  }
   
   cout << score << "\n";
 };

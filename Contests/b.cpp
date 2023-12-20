@@ -79,12 +79,48 @@ void setIO() {
 }
 
 void solve(){
-  ll n, k; cin >> n >> k;
-  vector<ll> v;
-  for (ll i = n-k; i > 0; i--) v.push_back(i);
-  for (ll i = n-k+1; i <= n; i++) v.push_back(i);
-  for (auto i: v) cout << i << " ";
-  cout << "\n";
+  ll n; cin >> n;
+  vector<ll> a(n);
+  for (ll i = 0; i < n; i++) cin >> a[i];
+
+  if (!(n&1)){
+    vector<ll> altsum;
+    for (ll i = 0; i < n-1; i+=2){
+      altsum.push_back(a[i]+a[i+1]);
+    }
+    cerr << altsum << "\n";
+    ll sum = altsum[0];
+    for (ll i = 1; i < altsum.size(); i++){
+      if (altsum[i] != sum){
+        cout << "YES\n";
+        return;
+      }
+    }
+    cout << "NO\n";
+    return;
+  } else {
+    vector<ll> altsum1, altsum2;
+    for (ll i = 0; i < n-1; i+=2) altsum1.push_back(a[i]+a[i+1]);
+    for (ll i = 1; i < n; i+=2) altsum2.push_back(a[i]+a[i+1]);
+    cerr << altsum1 << "\n";
+    cerr << altsum2 << "\n";
+    
+    ll sum = altsum1[0];
+    for (ll i = 1; i < altsum1.size(); i++){
+      if (altsum1[i] != sum){
+        cout << "YES\n";
+        return;
+      }
+    }
+    sum = altsum2[0];
+    for (ll i = 1; i < altsum2.size(); i++){
+      if (altsum2[i] != sum){
+        cout << "YES\n";
+        return;
+      }
+    }
+    cout << "NO\n";
+  }
 };
 
 int main(void){
