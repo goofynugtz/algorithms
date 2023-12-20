@@ -6,7 +6,6 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <unistd.h>
 
 using namespace std;
 using namespace chrono;
@@ -62,6 +61,8 @@ ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a
 ll mminvprime(ll a, ll b) {return expo(a, b - 2, b);}
 bool revsort(ll a, ll b) {return a > b;}
 ll combination(ll n, ll r, ll m, ll *fact, ll *ifact) {ll val1 = fact[n]; ll val2 = ifact[n - r]; ll val3 = ifact[r]; return (((val1 * val2) % m) * val3) % m;}
+vector<ll> sieve(int n) {int*arr = new int[n + 1](); vector<ll> vect; for (int i = 2; i <= n; i++) if (arr[i] == 0) { vect.push_back(i); for (int j = 2 * i; j <= n; j += i) arr[j] = 1; } return vect; }
+vector<bool> compute_primes(ll n){ vector<bool> isPrime(n+1, 1); isPrime[0] = isPrime[1] = 0; for (int i = 2; i*i <= n; i++) if (isPrime[i]) for (int j = i*i; j <= n; j+=i) isPrime[j] = 0; return isPrime; }
 
 ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) % m;}
 ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
@@ -78,16 +79,6 @@ void setIO() {
   #endif 
 }
 
-vector<bool> compute_primes(ll n){
-  vector<bool> isPrime(n+1, 1);
-  isPrime[0] = isPrime[1] = 0;
-  for (int i = 2; i*i <= n; i++)
-    if (isPrime[i])
-      for (int j = i*i; j <= n; j+=i) 
-        isPrime[j] = 0;
-  return isPrime;
-}
-
 struct Interactor {
   private:
     ll hidden_number;
@@ -102,7 +93,6 @@ struct Interactor {
       isPrime = compute_primes(n);
       // sleep(2);
       answer = isPrime[hidden_number] ? "prime" : "composite";
-      cout << n << " " << isPrime[hidden_number] << " " << answer << "\n";
       queries = 0;
       max_limit = limit;
       debug = d;
@@ -115,14 +105,13 @@ struct Interactor {
 
     string make_query(ll x){
       __can_query(); queries++;
-      if (debug) cout << "? " << x << endl;
+      if (debug) cerr << "? " << x << endl;
 
       if (hidden_number % x == 0) return "yes";
       else return "no";
     }
 
     void validate(string s){
-      cout << answer << " " << s << "\n";
       answer == s ? cout << "Passed for " << s << endl : cout << "Failed for " << s << endl;
     }
 
@@ -131,29 +120,69 @@ struct Interactor {
     }
 };
 
-
 void solve() {
-  Interactor intrctr = Interactor(64, 20, true);
-  vector<bool> isPrime = compute_primes(101);
-  cerr << isPrime << endl;
-  ll countPrimeFactors = 0, tries = 0;
+  Interactor intrctr = Interactor(95, 20, true);
+  vector<ll> primes = sieve(101);
+  cerr << primes << endl;
+  ll tries = 0;
+  map<ll, bool> primeFactors;
 
-  for (ll i = 2; i < isPrime.size() && tries < 20; i++){
+  // Check for 2, 3, 5, 7
+  ll counter = 0;
+  for (ll i = 0; i < 4 && tries < 20; i++){
     tries++;
     string response; 
-    // cin >> response;
-    response = intrctr.make_query(i);
-    cout << response << endl;
+    cout << primes[i] << endl;
+    cin >> response;
+    // response = intrctr.make_query(primes[i]);
     if (response == "yes"){
-      countPrimeFactors++;
-
-      if (countPrimeFactors > 1) break;
-    } else if (response == "no") continue;
+      primeFactors[primes[i]] = true;
+      counter++;
+    }
   }
-  if (countPrimeFactors > 1) intrctr.validate("composite");
-  else intrctr.validate("prime");
-  // if (countPrimeFactors > 1) cout << "composite" << endl;
-  // else cout << "prime" << endl;
+  if (counter == 0){
+    // intrctr.validate("prime");
+    cout << "prime" << endl;
+    return;
+
+  } else if (counter > 1){
+    // intrctr.validate("composite");
+    cout << "composite" << endl;
+    return;
+
+  } else if (counter == 1){
+    vector<ll> chckfr;
+    if (primeFactors[primes[0]]){
+      chckfr.push_back(4);
+      for (ll i = 4; i < 15; i++) chckfr.push_back(primes[i]);
+
+    } else if (primeFactors[primes[1]]){
+      chckfr.push_back(9);
+      for (ll i = 4; i < 11; i++) chckfr.push_back(primes[i]);
+    
+    } else if (primeFactors[primes[2]]){
+      chckfr.push_back(25);
+      for (ll i = 4; i < 8; i++) chckfr.push_back(primes[i]);
+    
+    } else if (primeFactors[primes[3]]){
+      chckfr.push_back(49);
+      for (ll i = 4; i < 6; i++) chckfr.push_back(primes[i]);
+    }
+    cerr << chckfr << endl;
+    for (ll i = 0; i < chckfr.size(); i++){
+      cout << chckfr[i] << endl;
+      string response; cin >> response;
+      // string response = intrctr.make_query(chckfr[i]);
+      if (response == "yes"){
+        // intrctr.validate("composite");
+        cout << "composite" << endl;
+        return;
+      }
+    }
+    // intrctr.validate("prime");
+    cout << "prime" << endl;
+    return;
+  }
 }
 
 int main(void){

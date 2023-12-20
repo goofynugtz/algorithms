@@ -78,25 +78,33 @@ void setIO() {
   #endif 
 }
 
-void solve(vector<ll>& bits){
-  ll t, v; cin >> t >> v;
-  if (t == 1){
-    bits[v]++;
-  } else {
-    for (ll i = 29; i >= 0; i--){
-      ll mini = min(ll(v >> i), bits[i]);
-      v -= mini*(pow(2,i));
-    }
-    if (v == 0) cout << "YES\n";
-    else cout << "NO\n";
-  }
+void solve(){
+  ll n, k; cin >> n >> k;
+  vector<ll> a(n);
+  for (ll i = 0; i < n; i++) cin >> a[i];
+  
+  vector<ll> b(n);
+  for (ll i = 0; i < n; i++) cin >> b[i];
+
+  vector<ll> pref(n, 0);
+  pref[0] = a[0];
+  for (ll i = 1; i < n; i++) pref[i] = a[i] + pref[i-1];
+  
+  vector<ll> bmax(n, 0);
+  bmax[0] = b[0];
+  for (ll i = 1; i < n; i++) bmax[i] = max(b[i], bmax[i-1]);
+
+  ll score = 0;
+  for (ll i = 0; i < min(n,k); i++)
+    score = max(score, pref[i] + (k-i-1)*bmax[i]);
+  
+  cout << score << "\n";
 };
 
 int main(void){
   setIO();
   ll t; cin >> t;
-  vector<ll> bits(31, 0);
-  while (t--) solve(bits);
+  while (t--) solve();
 
   return 0;
 }

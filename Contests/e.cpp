@@ -82,25 +82,28 @@ void setIO() {
 
 void solve(){
   ll n; cin >> n;
-  vector<ll> a(n), b(n), c(n);
-  multiset<pair<ll,ll>> x, y;
+  vector<ll> a(n);
   for (ll i = 0; i < n; i++) cin >> a[i];
-  for (ll i = 0; i < n; i++) cin >> b[i];
-  for (ll i = 0; i < n; i++) cin >> c[i];
+  
+  sort(a.begin(), a.end());
+  
+  vector<ll> cursed;
+  vector<ll> good;
+  ll i = 0, j = 1, sum = a[0];
+  good.push_back(a[0]);
 
-  for (ll i = 0; i < n; i++){
-    x.insert({b[i], i});
-    y.insert({b[i], i});
+  while (i < n && j < n){
+    if (sum < a[j]){
+      good.push_back(a[j]);
+      sum += a[j++];
+      i++;
+    } else {
+      cursed.push_back(a[j++]);
+    }
   }
-  cerr << a << "| " << b << "| " << c << "\n";
-  cerr << x << "\n\n";
-
-  for (ll i = 0; i < n; i++){
-    cerr << *((x.begin())) << " " << *((x.rbegin())) << "\n";
-    cerr << *(++(x.begin())) << " " << *(++(x.rbegin())) << "\n";
-    cerr << *((x.begin())) << " " << *((x.rbegin())) << "\n";
-    cerr << *(--(x.begin())) << " " << *(--(x.rbegin())) << " " << *(--(--(x.rbegin()))) << " " << *(--(--(--(x.rbegin())))) << " " << *(--(--(--(--(x.rbegin()))))) << "\n\n";
-  }
+  cout << cursed.size() << "\n";
+  cout << good << cursed << "\n";
+  
 };
 
 int main(void){

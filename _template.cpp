@@ -80,22 +80,10 @@ void setIO() {
 
 struct Interactor {
   private:
-    ll hidden_number;
-    ll queries;
-    ll max_limit;
-    bool debug;
+    ll hidden_number, queries, max_limit; bool debug;
   public:
-    Interactor(ll hn, ll limit = 10, bool d = false){
-      hidden_number = hn;
-      queries = 0;
-      max_limit = limit;
-      debug = d;
-    }
-
-    void __can_query(){ 
-      if(queries >= max_limit) cout << "Made more than limit queries for " << hidden_number << endl; 
-      assert(queries < max_limit); 
-    }
+    Interactor(ll hn, ll limit = 10, bool d = false){ hidden_number = hn; queries = 0; max_limit = limit; debug = d; }
+    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden_number << endl; assert(queries < max_limit); }
 
     char make_query(ll x){
       __can_query(); queries++;
