@@ -11,22 +11,22 @@ using namespace chrono;
 using namespace __gnu_pbds;
 
 #define INF (int)1e18
+
+#define ff      first
+#define ss      second
+#define sz(x)   ((int)(x).size())
+#define all(x)  (x).begin(), (x).end()
+#define PI      3.141592653589793238462
+#define MOD7    1000000007
+#define MOD9    998244353
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
   cout.tie(NULL)
 
-#define ff first
-#define ss second
-#define sz(x) ((int)(x).size())
-#define all(x) (x).begin(), (x).end()
-#define PI 3.141592653589793238462
-#define MOD7 1000000007
-#define MOD9 998244353
-
-using ll = long long;
-using ull = unsigned long long;
-using lld = long double;
+using ll =      long long;
+using ull =     unsigned long long;
+using lld =     long double;
 
 typedef tree<pair<int, int>, null_type, less<pair<int, int>>, rb_tree_tag, tree_order_statistics_node_update> pbds;
 
@@ -80,10 +80,15 @@ void setIO() {
 
 struct Interactor {
   private:
-    ll hidden_number, queries, max_limit; bool debug;
+    // TODO: 
+    ll hidden; 
+    ll queries, max_limit; bool debug;
   public:
-    Interactor(ll hn, ll limit = 10, bool d = false){ hidden_number = hn; queries = 0; max_limit = limit; debug = d; }
-    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden_number << endl; assert(queries < max_limit); }
+    Interactor(ll hn, 
+    ll limit = 10, bool d = false){ 
+      hidden = hn; 
+      queries = 0; max_limit = limit; debug = d; }
+    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
 
     char make_query(ll x){
       __can_query(); queries++;
@@ -91,8 +96,8 @@ struct Interactor {
     }
 
     void validate(ll x){
-      if(x != hidden_number) cout << "Failed for " << hidden_number << endl;
-      else cout << "Passed for " << hidden_number << endl;
+      if(x != hidden) cout << "Failed for " << hidden << endl;
+      else cout << "Passed for " << hidden << endl;
     }
 };
 
@@ -105,6 +110,6 @@ int main(void){
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 
-  cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
+  // cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
   return 0;
 }
