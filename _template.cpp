@@ -38,7 +38,7 @@ void _print(lld t) { cerr << t; }
 void _print(double t) { cerr << t; }
 void _print(ull t) { cerr << t; }
 
-template <typename T> ostream& operator<<(ostream& os, const vector<T>& v) { for (int i = 0; i < v.size(); ++i) { os << v[i] << " "; } return os; }
+template <typename T> ostream& operator<<(ostream& os, const vector<T>& v) { for (int i = 0; i < v.size(); ++i) os << v[i] << " "; return os; }
 template <typename T, typename U> ostream& operator<<(ostream& os, const pair<T, U>& p) { os << "{" << p.ff << ", " << p.ss << "}"; return os; }
 
 template <class T, class V> void _print(pair <T, V> p);
