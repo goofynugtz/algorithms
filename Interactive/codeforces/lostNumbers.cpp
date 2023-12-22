@@ -1,3 +1,4 @@
+// https://codeforces.com/problemset/problem/1167/B
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -90,7 +91,7 @@ struct Interactor {
       queries = 0; max_limit = limit; debug = d; }
     void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
 
-    char make_query(ll x){
+    ll make_query(ll x){
       __can_query(); queries++;
       // TODO: Your Implementation
     }
@@ -101,7 +102,53 @@ struct Interactor {
     }
 };
 
-void solve();
+ll make_query(ll i, ll j){
+  cout << "? " << i << " " << j << endl;
+  ll ans; cin >> ans;
+  return ans;
+}
+
+void answer(vector<ll>& ans){
+  cout << "! ";
+  for (auto i: ans) cout << i << " ";
+  cout << endl;
+}
+
+void solve(){
+  set<ll> nums = {4,8,15,16,23,42};
+  ll ab, ac, ad, ae;
+  ab = make_query(1,2);
+  ac = make_query(1,3);
+  ad = make_query(1,4);
+  ae = make_query(1,5);
+
+  pair<ll, ll> first, second;
+  for (auto it: nums){
+    if (ab % it == 0 && nums.find(ab/it) != nums.end()){
+      first.ff = it; first.ss = ab/it;
+    }
+    if (ac % it == 0 && nums.find(ac/it) != nums.end()){
+      second.ff = it; second.ss = ac/it;
+    }
+  }
+
+  vector<ll> ans(6);
+  if (first.ff == second.ff || first.ff == second.ss) ans[0] = first.ff;
+  else ans[0] = first.ss;
+
+  ans[1] = ab/ans[0];
+  ans[2] = ac/ans[0];
+  ans[3] = ad/ans[0];
+  ans[4] = ae/ans[0];
+
+  for (ll i = 0; i < 5; i++){
+    if (nums.find(ans[i]) != nums.end()) nums.erase(ans[i]);
+  }
+
+  ans[5] = *nums.begin();
+  answer(ans);
+
+}
 
 int main(void){
   setIO();
