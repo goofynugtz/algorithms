@@ -10,7 +10,6 @@ using namespace std;
 using namespace chrono;
 using namespace __gnu_pbds;
 
-
 #define ff      first
 #define ss      second
 #define sz(x)   ((int)(x).size())
@@ -80,28 +79,33 @@ void setIO() {
 
 struct Interactor {
   private:
-    // TODO: 
-    ll hidden; 
+    vector<ll> hidden; 
     ll queries, max_limit; bool debug;
   public:
-    Interactor(ll hn, 
+    Interactor(vector<ll> hn, 
     ll limit = 10, bool d = false){ 
       hidden = hn; 
       queries = 0; max_limit = limit; debug = d; }
     void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
 
-    char make_query(ll x){
-      __can_query(); queries++;
-      // TODO: Your Implementation
+    ll ask(ll l, ll r){
+      #ifndef ONLINE_JUDGE
+        __can_query(); queries++;
+        // TODO: Your Implementation
+
+      #else
+        cout << "? " << l << " " << r << endl;
+        ll x; cin >> x;
+        return x;
+      #endif
     }
 
-    void validate(ll x){
-      if(x != hidden) cout << "Failed for " << hidden << endl;
-      else cout << "Passed for " << hidden << endl;
+    void answer(ll x){
+      cout << "! " << x << endl;
     }
 };
 
-void solve();
+void solve() {}
 
 int main(void){
   setIO();
