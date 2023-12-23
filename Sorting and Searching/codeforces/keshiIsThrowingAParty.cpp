@@ -1,4 +1,3 @@
-// https://codeforces.com/problemset/problem/1487/D
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -78,22 +77,65 @@ void setIO() {
   #endif 
 }
 
-void solve(){
+struct Interactor {
+  private:
+    vector<ll> hidden; 
+    ll queries, max_limit; bool debug;
+  public:
+    Interactor(vector<ll> hn, 
+    ll limit = 10, bool d = false){ 
+      hidden = hn; 
+      queries = 0; max_limit = limit; debug = d; }
+    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
+
+    ll ask(ll l, ll r){
+      #ifndef ONLINE_JUDGE
+        __can_query(); queries++;
+        // TODO: Your Implementation
+
+      #else
+        cout << "? " << l << " " << r << endl;
+        ll x; cin >> x;
+        return x;
+      #endif
+    }
+
+    void answer(ll x){
+      cout << "! " << x << endl;
+    }
+};
+
+bool checker(ll x, vector<ll>& a, vector<ll>& b){
+  ll n = a.size();
+  ll c = 0;
+	for(ll i = 0; i < n; i++){
+		if(x - 1 - a[i] <= c && c <= b[i]) c++;
+	}
+	return c >= x;
+}
+
+void solve() {
   ll n; cin >> n;
-  ll ans = 0;
-  for (ll i = 3; i * i <= 2 * n - 1; i += 2)
-    ++ans;
-  cout << ans << endl;
+  vector<ll> a(n, 0), b(n, 0);
+  for (ll i = 0; i < n; i++) cin >> a[i] >> b[i];
+  
+  ll l = -1, r = n+1;
+  while (r - l > 1){
+    ll mid = (l+r) >> 1;
+    if (checker(mid, a, b)) l = mid;
+    else r = mid;
+  }
+  cout << l << "\n";
 }
 
 int main(void){
   setIO();
   auto start = high_resolution_clock::now();
   ll t; cin >> t;
-  while(t--) solve();
+  while (t--) solve();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 
-  cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
+  // cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
   return 0;
 }
