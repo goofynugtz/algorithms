@@ -1,3 +1,4 @@
+// https://codeforces.com/problemset/problem/1419/D2
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -105,55 +106,16 @@ struct Interactor {
     }
 };
 
-void solve() {
-  ll n; cin >> n;
-  vector<ll> x(n), y(n);
-  for (ll i = 0; i < n; i++) cin >> x[i] >> y[i];
-
-  map<int, ll> quad;
-  for (ll i = 0; i < n; i++){
-    if (x[i] > 0 && y[i] > 0) quad[1]++;
-    if (x[i] < 0 && y[i] > 0) quad[2]++;
-    if (x[i] < 0 && y[i] < 0) quad[3]++;
-    if (x[i] > 0 && y[i] < 0) quad[4]++;
-  }
-  if (quad.size() == 1){
-    cout << "YES\n";
-    return;
-  } else if (quad.size() == 2) {
-    if (quad[1] && quad[2]){
-      cout << "YES\n";
-      return;
-    }
-    if (quad[2] && quad[3]){
-      cout << "YES\n";
-      return;
-    }
-    if (quad[3] && quad[4]){
-      cout << "YES\n";
-      return;
-    }
-    if (quad[4] && quad[1]){
-      cout << "YES\n";
-      return;
-    }
-    cout << "NO\n";
-    return;
-
-  } else {
-    cout << "NO\n";
-    return;
-  }
-}
+void solve() {}
 
 int main(void){
   setIO();
   auto start = high_resolution_clock::now();
-  ll t; cin >> t;
-  while (t--) solve();
+  solve();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 
   // cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
   return 0;
 }
+
