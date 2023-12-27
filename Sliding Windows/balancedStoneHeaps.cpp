@@ -1,4 +1,4 @@
-// https://codeforces.com/problemset/problem/1419/D2
+// https://codeforces.com/problemset/problem/1623/C
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -100,53 +100,34 @@ struct Interactor {
         return x;
       #endif
     }
-
-    void answer(ll x){
-      cout << "! " << x << endl;
-    }
+    void answer(ll x){ cout << "! " << x << endl;}
 };
 
 bool checker(ll x, vector<ll>& a){
-  ll i = a.size()-1, okay = 1;
-  for (ll j = x-1; j >= 0; j--, i--){
-    okay &= (a[i] > a[j] && a[i-1] > a[j]);
-  }
-  return okay;
+  
 }
 
 void solve() {
   ll n; cin >> n;
   vector<ll> a(n);
   for (ll i = 0; i < n; i++) cin >> a[i];
-
-  sort(a.begin(), a.end());
-  
-  ll l = 1, r = (n+1)/2 - 1, answer = 0;
-
-  while (l <= r){
-    ll mid = l+r/2-l/2;
-    cerr << mid << "\n";
-    if (checker(mid, a)) answer = mid, l = mid+1;
+  ll l = 0, r = 3*1e9, ans = 0;
+  while (l < r){
+    ll mid = l/2+r/2;
+    if (checker(mid, a)) ans = mid, l = mid+1;
     else r = mid-1;
   }
-  cerr << a << "\n";
-  vector<ll> res(n, 0);
-  ll i = n-1, j = answer-1;
-  for (ll k = 0; k < n; k++){
-    if (!(k&1) || j == -1) res[k] = a[i--];
-    else res[k] = a[j--];
-  }
-  cout << answer << "\n" << res << "\n";
+  cout << ans << "\n";
 }
 
 int main(void){
   setIO();
   auto start = high_resolution_clock::now();
-  solve();
+  ll t; cin >> t;
+  while (t--) solve();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 
   // cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
   return 0;
 }
-

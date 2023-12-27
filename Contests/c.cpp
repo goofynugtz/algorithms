@@ -105,12 +105,42 @@ struct Interactor {
     }
 };
 
-void solve() {}
+void solve() {
+  ll n; cin >> n;
+  vector<pair<ll, ll>> a,b,c;
+  for (ll i = 0; i < n; i++){
+    ll _temp; cin >> _temp;
+    a.push_back({_temp, i});
+  }
+  for (ll i = 0; i < n; i++){
+    ll _temp; cin >> _temp;
+    b.push_back({_temp, i});
+  }
+  for (ll i = 0; i < n; i++){
+    ll _temp; cin >> _temp;
+    c.push_back({_temp, i});
+  }
+  sort(a.begin(), a.end(), greater<>());
+  sort(b.begin(), b.end(), greater<>());
+  sort(c.begin(), c.end(), greater<>());
+  ll res = 0;
+  for (ll i = 0; i < 3; i++){
+    for (ll j = 0; j < 3; j++){
+      for (ll k = 0; k < 3; k++){
+        if (a[i].second != b[j].second && a[i].second != c[k].second && b[j].second != c[k].second){
+          res = max(a[i].first + b[j].first + c[k].first, res);
+        }
+      }
+    }
+  }
+  cout << res << "\n";
+}
 
 int main(void){
   setIO();
   auto start = high_resolution_clock::now();
-  solve();
+  ll t; cin >> t;
+  while (t--) solve();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 
