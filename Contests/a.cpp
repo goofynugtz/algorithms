@@ -87,6 +87,7 @@ struct Interactor {
       hidden = hn; 
       queries = 0; max_limit = limit; debug = d; }
     void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
+    void answer(ll x){ cout << "! " << x << endl; }
 
     ll ask(ll l, ll r){
       #ifndef ONLINE_JUDGE
@@ -99,51 +100,21 @@ struct Interactor {
         return x;
       #endif
     }
-
-    void answer(ll x){
-      cout << "! " << x << endl;
-    }
 };
 
 void solve() {
   ll n; cin >> n;
-  vector<ll> x(n), y(n);
-  for (ll i = 0; i < n; i++) cin >> x[i] >> y[i];
+  vector<ll> a(n);
+  for (ll i = 0; i < n; i++) cin >> a[i];
 
-  map<int, ll> quad;
+  ll ans = 0;
+  ll maxi = a[0];
   for (ll i = 0; i < n; i++){
-    if (x[i] > 0 && y[i] > 0) quad[1]++;
-    if (x[i] < 0 && y[i] > 0) quad[2]++;
-    if (x[i] < 0 && y[i] < 0) quad[3]++;
-    if (x[i] > 0 && y[i] < 0) quad[4]++;
+    if (a[i] < maxi){
+      ans++;
+    } else maxi = a[i];
   }
-  if (quad.size() == 1){
-    cout << "YES\n";
-    return;
-  } else if (quad.size() == 2) {
-    if (quad[1] && quad[2]){
-      cout << "YES\n";
-      return;
-    }
-    if (quad[2] && quad[3]){
-      cout << "YES\n";
-      return;
-    }
-    if (quad[3] && quad[4]){
-      cout << "YES\n";
-      return;
-    }
-    if (quad[4] && quad[1]){
-      cout << "YES\n";
-      return;
-    }
-    cout << "NO\n";
-    return;
-
-  } else {
-    cout << "NO\n";
-    return;
-  }
+  cout << ans << "\n";
 }
 
 int main(void){

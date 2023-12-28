@@ -87,6 +87,7 @@ struct Interactor {
       hidden = hn; 
       queries = 0; max_limit = limit; debug = d; }
     void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
+    void answer(ll x){ cout << "! " << x << endl; }
 
     ll ask(ll l, ll r){
       #ifndef ONLINE_JUDGE
@@ -99,18 +100,20 @@ struct Interactor {
         return x;
       #endif
     }
-
-    void answer(ll x){
-      cout << "! " << x << endl;
-    }
 };
 
-void solve() {}
+void solve() {
+  ll n; cin >> n;
+  vector<ll> x(n), y(n);
+  for (ll i = 0; i < n; i++) cin >> x[i] >> y[i];
+
+}
 
 int main(void){
   setIO();
   auto start = high_resolution_clock::now();
-  solve();
+  ll t; cin >> t;
+  while (t--) solve();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 

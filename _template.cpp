@@ -87,6 +87,7 @@ struct Interactor {
       hidden = hn; 
       queries = 0; max_limit = limit; debug = d; }
     void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
+    void answer(ll x){ cout << "! " << x << endl; }
 
     ll ask(ll l, ll r){
       #ifndef ONLINE_JUDGE
@@ -100,9 +101,6 @@ struct Interactor {
       #endif
     }
 
-    void answer(ll x){
-      cout << "! " << x << endl;
-    }
 };
 
 void solve() {}

@@ -104,16 +104,30 @@ struct Interactor {
 };
 
 bool checker(ll x, vector<ll>& a){
-  
+  vector<ll> t(a);
+  ll n = t.size();
+  for (ll i = n-1; i >= 0; i--){
+    if (t[i] < x) return false;
+    else {
+      ll y = (t[i]-x)/3;
+      y = min(y, a[i]/3);
+      t[i] -= 3*y;
+      if (i > 1){
+        t[i-1] += y;
+        t[i-2] += 2*y;
+      }
+    }
+  }
+  return true;
 }
 
 void solve() {
   ll n; cin >> n;
   vector<ll> a(n);
   for (ll i = 0; i < n; i++) cin >> a[i];
-  ll l = 0, r = 3*1e9, ans = 0;
-  while (l < r){
-    ll mid = l/2+r/2;
+  ll l = 0, r = 1e9, ans = 0;
+  while (l <= r){
+    ll mid = l + r/2 - l/2;
     if (checker(mid, a)) ans = mid, l = mid+1;
     else r = mid-1;
   }

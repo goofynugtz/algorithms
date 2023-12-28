@@ -87,6 +87,7 @@ struct Interactor {
       hidden = hn; 
       queries = 0; max_limit = limit; debug = d; }
     void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
+    void answer(ll x){ cout << "! " << x << endl; }
 
     ll ask(ll l, ll r){
       #ifndef ONLINE_JUDGE
@@ -99,41 +100,26 @@ struct Interactor {
         return x;
       #endif
     }
-
-    void answer(ll x){
-      cout << "! " << x << endl;
-    }
 };
 
 void solve() {
   ll n; cin >> n;
-  vector<pair<ll, ll>> a,b,c;
-  for (ll i = 0; i < n; i++){
-    ll _temp; cin >> _temp;
-    a.push_back({_temp, i});
+  string x; cin >> x;
+
+  vector<char> ans(n, 'X');
+  ll remainingRoundsToWin = n/2+1;
+  ll i = 0;
+  for (i = 0; i < n - remainingRoundsToWin; i++){
+    ans[i] = 'P';
+    if (x[i] == 'R' && remainingRoundsToWin > 0) remainingRoundsToWin--;
   }
-  for (ll i = 0; i < n; i++){
-    ll _temp; cin >> _temp;
-    b.push_back({_temp, i});
+  for (i; i < n; i++){
+    if (x[i] == 'P') ans[i] = 'S';
+    else if (x[i] == 'R') ans[i] = 'P';
+    else ans[i] = 'R';
   }
-  for (ll i = 0; i < n; i++){
-    ll _temp; cin >> _temp;
-    c.push_back({_temp, i});
-  }
-  sort(a.begin(), a.end(), greater<>());
-  sort(b.begin(), b.end(), greater<>());
-  sort(c.begin(), c.end(), greater<>());
-  ll res = 0;
-  for (ll i = 0; i < 3; i++){
-    for (ll j = 0; j < 3; j++){
-      for (ll k = 0; k < 3; k++){
-        if (a[i].second != b[j].second && a[i].second != c[k].second && b[j].second != c[k].second){
-          res = max(a[i].first + b[j].first + c[k].first, res);
-        }
-      }
-    }
-  }
-  cout << res << "\n";
+  for (auto i: ans) cout << i;
+  cout << "\n";
 }
 
 int main(void){
