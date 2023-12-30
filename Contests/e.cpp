@@ -50,6 +50,7 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T, class V> void _print(unordered_map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 void _print(pbds v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
@@ -77,36 +78,24 @@ void setIO() {
   #endif 
 }
 
-struct Interactor {
-  private:
-    vector<ll> hidden; 
-    ll queries, max_limit; bool debug;
-  public:
-    Interactor(vector<ll> hn, 
-    ll limit = 10, bool d = false){ 
-      hidden = hn; 
-      queries = 0; max_limit = limit; debug = d; }
-    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
-    void answer(ll x){ cout << "! " << x << endl; }
-
-    ll ask(ll l, ll r){
-      #ifndef ONLINE_JUDGE
-        __can_query(); queries++;
-        // TODO: Your Implementation
-
-      #else
-        cout << "? " << l << " " << r << endl;
-        ll x; cin >> x;
-        return x;
-      #endif
-    }
-};
-
 void solve() {
   ll n; cin >> n;
-  vector<ll> x(n), y(n);
-  for (ll i = 0; i < n; i++) cin >> x[i] >> y[i];
+  vector<ll> a(n), pref(n, 0);
+  for (ll i = 0; i < n; i++) cin >> a[i];
+  for (ll i = 1; i < n; i+=2) a[i] = -a[i];
+  
+  map<ll, ll> m;
+  
+  pref[0] = a[0];
+  for (ll i = 1; i < n; i++) pref[i] = a[i] + pref[i-1];
 
+  for (ll i = 0; i < n; i++){
+    if (m[pref[i]] || pref[i] == 0){
+      cout << "YES\n";
+      return;
+    } else m[pref[i]]++;
+  }
+  cout << "NO\n";
 }
 
 int main(void){

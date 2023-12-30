@@ -77,49 +77,22 @@ void setIO() {
   #endif 
 }
 
-struct Interactor {
-  private:
-    vector<ll> hidden; 
-    ll queries, max_limit; bool debug;
-  public:
-    Interactor(vector<ll> hn, 
-    ll limit = 10, bool d = false){ 
-      hidden = hn; 
-      queries = 0; max_limit = limit; debug = d; }
-    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
-    void answer(ll x){ cout << "! " << x << endl; }
-
-    ll ask(ll l, ll r){
-      #ifndef ONLINE_JUDGE
-        __can_query(); queries++;
-        // TODO: Your Implementation
-
-      #else
-        cout << "? " << l << " " << r << endl;
-        ll x; cin >> x;
-        return x;
-      #endif
-    }
-};
+bool isps(ll x){
+  if (x >= 0) {
+    ll sr = sqrt(x);
+    return (sr * sr == x);
+  }
+  return false;
+}
 
 void solve() {
   ll n; cin >> n;
-  string x; cin >> x;
-
-  vector<char> ans(n, 'X');
-  ll remainingRoundsToWin = n/2+1;
-  ll i = 0;
-  for (i = 0; i < n - remainingRoundsToWin; i++){
-    ans[i] = 'P';
-    if (x[i] == 'R' && remainingRoundsToWin > 0) remainingRoundsToWin--;
+  ll sum = 0;
+  for (ll i = 0; i < n; i++){
+    ll t; cin >> t;
+    sum += t;
   }
-  for (i; i < n; i++){
-    if (x[i] == 'P') ans[i] = 'S';
-    else if (x[i] == 'R') ans[i] = 'P';
-    else ans[i] = 'R';
-  }
-  for (auto i: ans) cout << i;
-  cout << "\n";
+  isps(sum) ? cout << "YES\n" : cout << "NO\n";
 }
 
 int main(void){

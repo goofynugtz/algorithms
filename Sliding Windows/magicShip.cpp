@@ -1,3 +1,4 @@
+// https://codeforces.com/problemset/problem/1117/C
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -77,45 +78,44 @@ void setIO() {
   #endif 
 }
 
-void f(ll i, ll j, set<string> d, string& res, string& s){
-  // cerr << i << " " << j << "\n";
-  if (i >= s.length()+1 && j >= s.length()+2){
-    cerr << "exiting @ " << i << " " << j << " " << res << "\n";
-    return;
-  }
-  if (j - i > 4){ return; }
+struct Interactor {
+  private:
+    vector<ll> hidden; 
+    ll queries, max_limit; bool debug;
+  public:
+    Interactor(vector<ll> hn, 
+    ll limit = 10, bool d = false){ 
+      hidden = hn; 
+      queries = 0; max_limit = limit; debug = d; }
+    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
+    void answer(ll x){ cout << "! " << x << endl; }
 
-  cerr << "search " << s.substr(i,j-i) << "\n";
-  if (d.find(s.substr(i,j-i)) != d.end()){
-    res += s.substr(i,j-i);
-    res += '.';
-    f(j, j+1, d, res, s);
-    res.pop_back();
-    res += s[j];
-  } 
-  f(i, j+1, d, res, s);
-}
+    ll ask(ll l, ll r){
+      #ifndef ONLINE_JUDGE
+        __can_query(); queries++;
+        // TODO: Your Implementation
+
+      #else
+        cout << "? " << l << " " << r << endl;
+        ll x; cin >> x;
+        return x;
+      #endif
+    }
+
+};
 
 void solve() {
+  ll x1, y1; cin >> x1 >> y1;
+  ll x2, y2; cin >> x2 >> y2;
   ll n; cin >> n;
   string s; cin >> s;
-  deque<char> d;
-  for (ll i = n-1; i >= 0; i--){
-    if (s[i] == 'a' || s[i] == 'e'){
-      d.push_front(s[i--]);
-      d.push_front(s[i]);
-      if (i > 0) d.push_front('.');
-    } else d.push_front(s[i]);
-  }
-  for (auto i:d) cout << i;
-  cout << "\n";
+  
 }
 
 int main(void){
   setIO();
   auto start = high_resolution_clock::now();
-  ll t; cin >> t;
-  while (t--) solve();
+  solve();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 

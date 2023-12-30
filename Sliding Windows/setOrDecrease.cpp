@@ -1,3 +1,4 @@
+// https://codeforces.com/problemset/problem/1622/C
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -10,14 +11,15 @@ using namespace std;
 using namespace chrono;
 using namespace __gnu_pbds;
 
-#define ff      first
-#define ss      second
-#define sz(x)   ((int)(x).size())
-#define all(x)  (x).begin(), (x).end()
-#define INF     (int)1e18
-#define PI      3.141592653589793238462
-#define MOD7    1000000007
-#define MOD9    998244353
+#define ff              first
+#define ss              second
+#define sz(x)           ((int)(x).size())
+#define all(x)          (x).begin(), (x).end()
+#define debug_bs        cerr << l << " " << mid << " " << r << "\n"
+#define INF             (int)1e18
+#define PI              3.141592653589793238462
+#define MOD7            1000000007
+#define MOD9            998244353
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
@@ -77,38 +79,40 @@ void setIO() {
   #endif 
 }
 
-void f(ll i, ll j, set<string> d, string& res, string& s){
-  // cerr << i << " " << j << "\n";
-  if (i >= s.length()+1 && j >= s.length()+2){
-    cerr << "exiting @ " << i << " " << j << " " << res << "\n";
-    return;
-  }
-  if (j - i > 4){ return; }
-
-  cerr << "search " << s.substr(i,j-i) << "\n";
-  if (d.find(s.substr(i,j-i)) != d.end()){
-    res += s.substr(i,j-i);
-    res += '.';
-    f(j, j+1, d, res, s);
-    res.pop_back();
-    res += s[j];
-  } 
-  f(i, j+1, d, res, s);
+bool ok(ll x, vector<ll>&a, ll k, ll sum){ 
+    if(sum - x <= k) return true;
+    ll n = a.size();
+    for(ll i = n - 1; i >= max(1ll, (ll)n - x); i--){
+        sum -= a[i];
+        ll operationsLeft = x - (n - i);
+        ll tempSum = sum - a[0] + (n - i + 1) * (a[0] - operationsLeft);
+        if(tempSum <= k) return true;
+    }
+    return false;
 }
 
 void solve() {
-  ll n; cin >> n;
-  string s; cin >> s;
-  deque<char> d;
-  for (ll i = n-1; i >= 0; i--){
-    if (s[i] == 'a' || s[i] == 'e'){
-      d.push_front(s[i--]);
-      d.push_front(s[i]);
-      if (i > 0) d.push_front('.');
-    } else d.push_front(s[i]);
+  ll n, k; cin >> n >> k;
+  vector<ll> a(n); 
+  ll sum = 0;
+  for (ll i = 0; i < n; i++){
+    cin >> a[i];
+    sum += a[i];
   }
-  for (auto i:d) cout << i;
-  cout << "\n";
+  sort(a.begin(), a.end());
+  ll l = 0, r = 1e10, ans = 1e10;
+  cerr << ans << "\n";
+  while (l <= r){
+    ll mid = l + r/2 - l/2;
+    // debug_bs;
+    if (ok(mid, a, k, sum)){
+      ans = mid;
+      r = mid-1;
+    } else l = mid+1;
+  }
+  cout << ans << "\n";
+
+
 }
 
 int main(void){

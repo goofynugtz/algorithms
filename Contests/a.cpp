@@ -77,44 +77,14 @@ void setIO() {
   #endif 
 }
 
-struct Interactor {
-  private:
-    vector<ll> hidden; 
-    ll queries, max_limit; bool debug;
-  public:
-    Interactor(vector<ll> hn, 
-    ll limit = 10, bool d = false){ 
-      hidden = hn; 
-      queries = 0; max_limit = limit; debug = d; }
-    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
-    void answer(ll x){ cout << "! " << x << endl; }
-
-    ll ask(ll l, ll r){
-      #ifndef ONLINE_JUDGE
-        __can_query(); queries++;
-        // TODO: Your Implementation
-
-      #else
-        cout << "? " << l << " " << r << endl;
-        ll x; cin >> x;
-        return x;
-      #endif
-    }
-};
-
 void solve() {
-  ll n; cin >> n;
-  vector<ll> a(n);
-  for (ll i = 0; i < n; i++) cin >> a[i];
+  ll a,b,c; cin >> a>>b>>c;
+  if (a == b){
+    cout << c << "\n";
+  } else if (a == c){
+    cout << b << "\n";
+  } else cout << a << "\n";
 
-  ll ans = 0;
-  ll maxi = a[0];
-  for (ll i = 0; i < n; i++){
-    if (a[i] < maxi){
-      ans++;
-    } else maxi = a[i];
-  }
-  cout << ans << "\n";
 }
 
 int main(void){
@@ -124,7 +94,5 @@ int main(void){
   while (t--) solve();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
-
-  // cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
   return 0;
 }

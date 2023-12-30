@@ -1,3 +1,6 @@
-P
-SR
-PPS
+YES
+YES
+NO
+YES
+NO
+YES

@@ -77,34 +77,36 @@ void setIO() {
   #endif 
 }
 
-struct Interactor {
-  private:
-    vector<ll> hidden; 
-    ll queries, max_limit; bool debug;
-  public:
-    Interactor(vector<ll> hn, 
-    ll limit = 10, bool d = false){ 
-      hidden = hn; 
-      queries = 0; max_limit = limit; debug = d; }
-    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
-    void answer(ll x){ cout << "! " << x << endl; }
-
-    ll ask(ll l, ll r){
-      #ifndef ONLINE_JUDGE
-        __can_query(); queries++;
-        // TODO: Your Implementation
-
-      #else
-        cout << "? " << l << " " << r << endl;
-        ll x; cin >> x;
-        return x;
-      #endif
-    }
-};
-
 void solve() {
-  ll x, y, z; cin >> x >> y >> z;
-  cout << (z/2)/(x*y) << "\n";;
+  string grid[3];
+  cin >> grid[0] >> grid[1] >> grid[2];
+  for (ll i = 0; i < 3; i++){
+    for (ll j = 0; j < 3; j++){
+      if (grid[i][j] == '?'){
+        unordered_map<char, bool> m;
+        for (ll k = 0; k < 3; k++){
+          if (grid[i][k] == '?') continue;
+          else m[grid[i][k]] = true;
+        }
+        for (ll k = 0; k < 3; k++){
+          if (grid[k][j] == '?') continue;
+          else m[grid[k][j]] = true;
+        }
+        if (!m['A']){
+          cout << "A\n";
+          return;
+        }
+        if (!m['B']){
+          cout << "B\n";
+          return;
+        }
+        if (!m['C']){
+          cout << "C\n";
+          return;
+        }
+      }
+    }
+  }
 }
 
 int main(void){
@@ -114,7 +116,5 @@ int main(void){
   while (t--) solve();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
-
-  // cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
   return 0;
 }
