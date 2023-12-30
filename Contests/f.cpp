@@ -77,34 +77,6 @@ void setIO() {
   #endif 
 }
 
-struct Interactor {
-  private:
-    vector<ll> hidden; 
-    ll queries, max_limit; bool debug;
-  public:
-    Interactor(vector<ll> hn, 
-    ll limit = 10, bool d = false){ 
-      hidden = hn; 
-      queries = 0; max_limit = limit; debug = d; }
-    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
-
-    ll ask(ll l, ll r){
-      #ifndef ONLINE_JUDGE
-        __can_query(); queries++;
-        // TODO: Your Implementation
-
-      #else
-        cout << "? " << l << " " << r << endl;
-        ll x; cin >> x;
-        return x;
-      #endif
-    }
-
-    void answer(ll x){
-      cout << "! " << x << endl;
-    }
-};
-
 void solve() {}
 
 int main(void){

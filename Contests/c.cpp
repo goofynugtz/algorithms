@@ -10,22 +10,23 @@ using namespace std;
 using namespace chrono;
 using namespace __gnu_pbds;
 
-#define ff      first
-#define ss      second
-#define sz(x)   ((int)(x).size())
-#define all(x)  (x).begin(), (x).end()
-#define INF     (int)1e18
-#define PI      3.141592653589793238462
-#define MOD7    1000000007
-#define MOD9    998244353
+#define ff            first
+#define ss            second
+#define sz(x)         ((int)(x).size())
+#define all(x)        (x).begin(), (x).end()
+#define debug_lmidr   cerr << l << " " << mid << " " << r << "\n";
+#define INF           (int)1e18
+#define PI            3.141592653589793238462
+#define MOD7          1000000007
+#define MOD9          998244353
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
   cout.tie(NULL)
 
-using ll =      long long;
-using ull =     unsigned long long;
-using lld =     long double;
+using ll =            long long;
+using ull =           unsigned long long;
+using lld =           long double;
 
 typedef tree<pair<int, int>, null_type, less<pair<int, int>>, rb_tree_tag, tree_order_statistics_node_update> pbds;
 
@@ -37,8 +38,12 @@ void _print(lld t) { cerr << t; }
 void _print(double t) { cerr << t; }
 void _print(ull t) { cerr << t; }
 
-template <typename T> ostream& operator<<(ostream& os, const vector<T>& v) { for (int i = 0; i < v.size(); ++i) os << v[i] << " "; return os; }
+template <typename T> ostream& operator<<(ostream& os, const vector<T>& v) { for (auto i:v) os << i << " "; return os; }
 template <typename T, typename U> ostream& operator<<(ostream& os, const pair<T, U>& p) { os << "{" << p.ff << ", " << p.ss << "}"; return os; }
+template <typename T> ostream& operator<<(ostream& os, const set<T>& s) { for (auto i:s) os << i << " "; return os; }
+template <typename T> ostream& operator<<(ostream& os, const multiset<T>& s) { for (auto i:s) os << i << " "; return os; }
+template <typename T, typename U> ostream& operator<<(ostream& os, const map<T, U>& m) { for (auto i: m) os << i.ff << " -> " << i.ss << "\n"; return os; }
+template <typename T, typename U> ostream& operator<<(ostream& os, const unordered_map<T, U>& m) { for (auto i: m) os << i.ff << " -> " << i.ss << "\n"; return os; }
 
 template <class T, class V> void _print(pair <T, V> p);
 template <class T> void _print(vector <T> v);
@@ -77,22 +82,12 @@ void setIO() {
   #endif 
 }
 
-bool isps(ll x){
-  if (x >= 0) {
-    ll sr = sqrt(x);
-    return (sr * sr == x);
-  }
-  return false;
-}
-
 void solve() {
   ll n; cin >> n;
-  ll sum = 0;
-  for (ll i = 0; i < n; i++){
-    ll t; cin >> t;
-    sum += t;
-  }
-  isps(sum) ? cout << "YES\n" : cout << "NO\n";
+  vector<ll> a(n), pref(n, 0);
+  for (ll i = 0; i < n; i++) cin >> a[i];
+
+
 }
 
 int main(void){
@@ -102,7 +97,5 @@ int main(void){
   while (t--) solve();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
-
-  // cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
   return 0;
 }

@@ -82,20 +82,7 @@ void solve() {
   ll n; cin >> n;
   vector<ll> a(n), pref(n, 0);
   for (ll i = 0; i < n; i++) cin >> a[i];
-  for (ll i = 1; i < n; i+=2) a[i] = -a[i];
-  
-  map<ll, ll> m;
-  
-  pref[0] = a[0];
-  for (ll i = 1; i < n; i++) pref[i] = a[i] + pref[i-1];
 
-  for (ll i = 0; i < n; i++){
-    if (m[pref[i]] || pref[i] == 0){
-      cout << "YES\n";
-      return;
-    } else m[pref[i]]++;
-  }
-  cout << "NO\n";
 }
 
 int main(void){
