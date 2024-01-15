@@ -62,18 +62,69 @@ void setIO() {
   #endif 
 }
 
+struct Interactor {
+  private:
+    vector<ll> hidden; 
+    ll queries, max_limit; bool debug;
+  public:
+    Interactor(vector<ll> hn, 
+    ll limit = 10, bool d = false){ 
+      hidden = hn;
+      queries = 0; max_limit = limit; debug = d; }
+    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
+    void answer(vector<ll>& x){ cout << "! " << x << endl; }
+
+    ll ask(ll l, ll r){
+      #ifndef ONLINE_JUDGE
+        __can_query(); queries++;
+        // TODO: Your Implementation
+        cout << "? " << l+1 << " " << r+1 << "\n";
+        return hidden[l]+hidden[r];
+      #else
+        cout << "? " << l+1 << " " << r+1 << endl;
+        ll x; cin >> x;
+        return x;
+      #endif
+    }
+
+};
+
 void solve() {
   ll n; cin >> n;
-  vector<ll> a(n), pref(n, 0);
-  for (ll i = 0; i < n; i++) cin >> a[i];
-
+  vector<ll> h = {4,6,1,5,5};
+  Interactor itr = Interactor(h,n,true);
+  ll left = n;
+  vector<ll> ans(n, 0);
+  for (ll i = 0; i < n; i+=3){
+    if (left < 3){
+      if (left == 1){
+        ll zl = itr.ask(0,i);
+        ans[i] = zl-ans[0];
+        break;
+      }
+      if (left == 2){
+        ll lr = itr.ask(i,i+1);
+        ll zr = itr.ask(0,i+1);
+        ans[i+1] = zr-ans[0];
+        ans[i] = lr-ans[i+1];
+        break;
+      }
+    }
+    ll ab = itr.ask(i,i+1);
+    ll bc = itr.ask(i+1,i+2);
+    ll ac = itr.ask(i,i+2);
+    ll abc = (ab+bc+ac)/2;
+    ans[i+2] = abc-ab; --left;
+    ans[i] = abc-bc; --left;
+    ans[i+1] = abc-ac; --left;
+  }
+  itr.answer(ans);
 }
 
 int main(void){
   setIO();
   auto start = high_resolution_clock::now();
-  ll t; cin >> t;
-  while (t--) solve();
+  solve();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 

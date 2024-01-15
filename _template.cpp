@@ -88,7 +88,12 @@ struct Interactor {
 
 };
 
-void solve() {}
+void solve() {
+  ll n, k; cin >> n >> k;
+  vector<ll> a(n);
+  for(ll i = 0; i < n; i++) cin >> a[i];
+
+}
 
 int main(void){
   setIO();

@@ -62,14 +62,27 @@ void setIO() {
   #endif 
 }
 
+bool isValley(vector<ll>& a, ll i){
+  if ((i=0 || a[i-1] > a[i]) && (i=a.size()-1 || a[i+1] > a[i])) return true;
+  return false;
+}
+
 void solve() {
-  ll n, k; cin >> n >> k;
-  vector<ll> a(n);
-  for (ll i = 0; i < n; i++) cin >> a[i];
-
-  
-  
-
+    ll n; cin >> n;
+    vector<ll> a(n);
+    for (auto &i : a) cin >> i;
+    if (n == 1){
+      cout << "YES\n";
+      return;
+    }
+    ll ans = -1, l = -1, r = -1, valleys = 0;
+    for (ll i = 1; i + 1 < n; ++i) {
+        if (isValley(a, i)) ++valleys;
+    }
+    cerr << valleys << "\n";
+    if (valleys == 1){
+      cout << "YES\n";
+    } else cout << "NO\n";
 }
 
 int main(void){

@@ -62,11 +62,19 @@ void setIO() {
   #endif 
 }
 
-void solve() {
-  ll n; cin >> n;
-  vector<ll> a(n), pref(n, 0);
-  for (ll i = 0; i < n; i++) cin >> a[i];
+ll S(ll n){
+  ll sum = 0;
+  while (n != 0) {
+    sum = sum + n % 10;
+    n = n / 10;
+  }
+  return sum;
+}
 
+void solve() {
+  ll n, x; cin >> n >> x;
+  
+  
 
 }
 

@@ -1,3 +1,4 @@
+// https://codeforces.com/problemset/problem/1917/B
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -62,28 +63,21 @@ void setIO() {
   #endif 
 }
 
+
 void solve() {
-  ll n,m; cin >> n >> m;
-  vector<ll> a(n);
-  vector<pair<ll,ll>> b(m);
-  for (ll i = 0; i < n; i++) cin >> a[i];
-  for (ll i = 0; i < m; i++){
-    ll x; cin >> x;
-    b[i] = {x, i};
-  }
-  
-  sort(b.begin(), b.end());
-  ll j = 0, height = 0;
-  // cerr << a << "\n" << b << "\n\n";
-  vector<ll> ans(m);
-  for (ll i = 0; i < m; i++){
-    while (j < n && a[j] <= b[i].first){
-      height += a[j];
-      j++;
+  ll n; cin >> n;
+  string s; cin >> s;
+
+  vector<bool> f(26, 0);
+  ll answer = 0;
+  for (ll i = 0; i < n; i++){
+    if (!f[s[i] - 'a']){
+      f[s[i]-'a'] = 1;
+      answer += (n-i);
     }
-    ans[b[i].second] = height;
   }
-  cout << ans << "\n";
+
+  cout << answer << "\n";
 }
 
 int main(void){

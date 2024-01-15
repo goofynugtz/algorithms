@@ -63,18 +63,25 @@ void setIO() {
 }
 
 void solve() {
-  ll n; cin >> n;
-  vector<ll> a(n), pref(n, 0);
+  ll n,m; cin >> n >> m;
+  vector<ll> a(n), b(m);
   for (ll i = 0; i < n; i++) cin >> a[i];
-
-
+  for (ll i = 0; i < m; i++) cin >> b[i];
+  sort(a.begin(), a.end());
+  
+  vector<ll> ans(m);
+  for (ll i = 0; i < m; i++){
+    auto x = upper_bound(a.begin(), a.end(), b[i]) - a.begin();
+    ans[i] = x;
+  }
+  cout << ans << "\n";
 }
 
 int main(void){
   setIO();
   auto start = high_resolution_clock::now();
-  ll t; cin >> t;
-  while (t--) solve();
+  // ll t; cin >> t;
+  solve();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
   return 0;

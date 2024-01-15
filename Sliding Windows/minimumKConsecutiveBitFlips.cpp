@@ -1,5 +1,5 @@
 // Rahul R, rahulranjan25.rr@gmail.com
-
+// https://leetcode.com/problems/minimum-number-of-k-consecutive-bit-flips/description/
 #pragma GCC optimize("O3,unroll-loops")
 
 #include <bits/stdc++.h>
@@ -44,7 +44,7 @@ ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a
 ll mminvprime(ll a, ll b) {return expo(a, b - 2, b);}
 bool revsort(ll a, ll b) {return a > b;}
 ll combination(ll n, ll r, ll m, ll *fact, ll *ifact) {ll val1 = fact[n]; ll val2 = ifact[n - r]; ll val3 = ifact[r]; return (((val1 * val2) % m) * val3) % m;}
-vector<ll> sieve(int n) {int*arr = new int[n + 1](); vector<ll> vect; for (int i = 2; i <= n; i++) if (arr[i] == 0) { vect.push_back(i); for (int j = 2 * i; j <= n; j += i) arr[j] = 1; } return vect; }
+vector<ll> sieve(int n) {int*arr = new int[n + 1](); vector<ll> listOfPrimes; for (int i = 2; i <= n; i++) if (arr[i] == 0) { listOfPrimes.push_back(i); for (int j = 2 * i; j <= n; j += i) arr[j] = 1; } return listOfPrimes; }
 vector<bool> compute_primes(ll n){ vector<bool> isPrime(n+1, 1); isPrime[0] = isPrime[1] = 0; for (int i = 2; i*i <= n; i++) if (isPrime[i]) for (int j = i*i; j <= n; j+=i) isPrime[j] = 0; return isPrime; }
 
 ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) % m;}
@@ -62,36 +62,18 @@ void setIO() {
   #endif 
 }
 
-void solve() {
-  ll n,m; cin >> n >> m;
-  vector<ll> a(n);
-  vector<pair<ll,ll>> b(m);
-  for (ll i = 0; i < n; i++) cin >> a[i];
-  for (ll i = 0; i < m; i++){
-    ll x; cin >> x;
-    b[i] = {x, i};
-  }
+int minKBitFlips(vector<int>& nums, int k) {
   
-  sort(b.begin(), b.end());
-  ll j = 0, height = 0;
-  // cerr << a << "\n" << b << "\n\n";
-  vector<ll> ans(m);
-  for (ll i = 0; i < m; i++){
-    while (j < n && a[j] <= b[i].first){
-      height += a[j];
-      j++;
-    }
-    ans[b[i].second] = height;
-  }
-  cout << ans << "\n";
 }
 
 int main(void){
   setIO();
   auto start = high_resolution_clock::now();
-  ll t; cin >> t;
-  while (t--) solve();
+  
+  minKBitFlips();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
+
+  // cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
   return 0;
 }
