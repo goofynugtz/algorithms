@@ -1,3 +1,4 @@
+// https://codeforces.com/contest/876/problem/B
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -19,7 +20,7 @@ using namespace __gnu_pbds;
 #define PI            3.141592653589793238462
 #define MOD7          1000000007
 #define MOD9          998244353
-#define MULTIPLE      1
+#define MULTIPLE      0
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
@@ -64,37 +65,22 @@ void setIO() {
   #endif 
 }
 
-struct Interactor {
-  private:
-    vector<ll> hidden; 
-    ll queries, max_limit; bool debug;
-  public:
-    Interactor(vector<ll> hn, 
-    ll limit = 10, bool d = false){ 
-      hidden = hn;
-      queries = 0; max_limit = limit; debug = d; }
-    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
-    void answer(ll x){ cout << "! " << x << endl; }
-
-    ll ask(ll l, ll r){
-      #ifndef ONLINE_JUDGE
-        __can_query(); queries++;
-        // TODO: Your Implementation
-
-      #else
-        cout << "? " << l << " " << r << endl;
-        ll x; cin >> x;
-        return x;
-      #endif
-    }
-
-};
-
 void solve() {
-  ll n, k; cin >> n >> k;
+  ll n,k,m; cin >> n >> k >> m;
   vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
+  for (ll i = 0; i < n; i++) cin >> a[i];
 
+  unordered_map<ll,vector<ll>> mp;
+  for (ll i = 0; i < n; i++){
+    mp[a[i]%m].push_back(a[i]);
+    if (mp[a[i]%m].size() >= k){
+      cout << "Yes\n";
+      for (ll j = 0; j < k; j++) cout << mp[a[i]%m][j] << " ";
+      cout << "\n";
+      return;
+    }
+  }
+  cout << "No\n";
 }
 
 int main(void){

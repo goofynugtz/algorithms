@@ -1,3 +1,4 @@
+// https://cses.fi/problemset/task/1712
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -64,44 +65,16 @@ void setIO() {
   #endif 
 }
 
-struct Interactor {
-  private:
-    vector<ll> hidden; 
-    ll queries, max_limit; bool debug;
-  public:
-    Interactor(vector<ll> hn, 
-    ll limit = 10, bool d = false){ 
-      hidden = hn;
-      queries = 0; max_limit = limit; debug = d; }
-    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
-    void answer(ll x){ cout << "! " << x << endl; }
-
-    ll ask(ll l, ll r){
-      #ifndef ONLINE_JUDGE
-        __can_query(); queries++;
-        // TODO: Your Implementation
-
-      #else
-        cout << "? " << l << " " << r << endl;
-        ll x; cin >> x;
-        return x;
-      #endif
-    }
-
-};
-
 void solve() {
-  ll n, k; cin >> n >> k;
-  vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
-
+  ll a,b,c; cin >> a >> b >> c;
+  cout << expo(a, expo(b, c, 1e9+6), 1e9+7) << "\n";
 }
 
 int main(void){
   setIO();
   auto start = high_resolution_clock::now();
   ll t = 1;
-  #if MULTIPLE
+  #ifdef MULTIPLE
     cin >> t;
   #endif
   while (t--) solve();
