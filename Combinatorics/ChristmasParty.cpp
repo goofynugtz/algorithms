@@ -1,3 +1,5 @@
+// https://cses.fi/problemset/task/1717
+// 
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -19,7 +21,7 @@ using namespace __gnu_pbds;
 #define PI            3.141592653589793238462
 #define MOD7          1000000007
 #define MOD9          998244353
-#define MULTIPLE      1
+#define MULTIPLE      0
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
@@ -44,7 +46,7 @@ mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1) res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
 ll phi(ll n) { ll res = n; for (ll i = 2; i*i<=n; i++){ if (n%i == 0) { while (n%i == 0) n /= i; res -= res/i; } } if (n > 1) res -= res/n; return res; }
 ll mminvprime(ll a, ll b) {return expo(a, b - 2, b);}
-bool revsort(ll a, ll b) {return a > b;}
+bool revsort(ull a, ull b) {return a > b;}
 ll combination(ll n, ll r, ll m, ll *fact, ll *ifact) {ll val1 = fact[n]; ll val2 = ifact[n - r]; ll val3 = ifact[r]; return (((val1 * val2) % m) * val3) % m;}
 vector<ll> sieve(int n) {int*arr = new int[n + 1](); vector<ll> listOfPrimes; for (int i = 2; i <= n; i++) if (arr[i] == 0) { listOfPrimes.push_back(i); for (int j = 2 * i; j <= n; j += i) arr[j] = 1; } return listOfPrimes; }
 vector<bool> compute_primes(ll n){ vector<bool> isPrime(n+1, 1); isPrime[0] = isPrime[1] = 0; for (int i = 2; i*i <= n; i++) if (isPrime[i]) for (int j = i*i; j <= n; j+=i) isPrime[j] = 0; return isPrime; }
@@ -64,11 +66,33 @@ void setIO() {
   #endif 
 }
 
-void solve() {
-  ll n, k; cin >> n >> k;
-  vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
+vector<ll> compute_factorials(ll upto = 1e5){
+  vector<ll> factorial(upto+1);
+  factorial[0] = factorial[1] = 1;
+  for (ll i = 2; i <= upto; ++i) factorial[i] = (i*factorial[i-1]);
+  return factorial;
+}
 
+void solve() {
+  
+  const ull mod = 1e9+7;
+
+  ull n; cin >> n;
+  vector<ll> fact = compute_factorials(n);
+  ull answer = 0, sign = 1;
+  for (ll i = 2; i <= n; i++){
+    ll modinv = mminvprime(fact[i], mod);
+    cerr << modinv << "\n";
+    if (modinv == 0) break;
+    ll s = ((fact[n] % mod) * (modinv % mod)) % mod;
+    if (sign == 1)
+      answer = ((answer % mod) + (s % mod)) % mod;
+    else if (sign == -1)
+      answer = ((answer % mod) - (s % mod) + mod) % mod;
+    sign *= -1;
+  }
+
+  cout << answer << "\n";
 }
 
 int main(void){

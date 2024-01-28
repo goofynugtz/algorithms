@@ -1,3 +1,5 @@
+// https://codeforces.com/problemset/problem/476/B
+// 
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -19,7 +21,7 @@ using namespace __gnu_pbds;
 #define PI            3.141592653589793238462
 #define MOD7          1000000007
 #define MOD9          998244353
-#define MULTIPLE      1
+#define MULTIPLE      0
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
@@ -64,11 +66,32 @@ void setIO() {
   #endif 
 }
 
-void solve() {
-  ll n, k; cin >> n >> k;
-  vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
+void f(string& s, ll i, ll location, vector<ll>& end){
+  if (i >= s.length()) end.push_back(location);
+  if (s[i] == '+') f(s, i+1, location+1, end);
+  else if (s[i] == '-') f(s, i+1, location-1, end);
+  else if (s[i] == '?'){
+    f(s, i+1, location+1, end);
+    f(s, i+1, location-1, end);
+  }
+}
 
+void solve() {
+  string s1, s2; cin >> s1 >> s2;
+  ll n = s1.length();
+  ll actual = 0;
+  for (ll i = 0; i < n; i++){
+    if (s1[i] == '+') actual++;
+    else if (s1[i] == '-') actual--;
+  }
+  vector<ll> expected;
+  f(s2, 0, 0, expected);
+  // cerr << expected << "\n";
+  double ans = 0;
+  for (auto i: expected){
+    if (i == actual) ans++;
+  }
+  cout << fixed << setprecision(10) << (double)ans/expected.size();
 }
 
 int main(void){

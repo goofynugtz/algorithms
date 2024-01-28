@@ -1,3 +1,5 @@
+// https://codeforces.com/contest/57/problem/C
+// 
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -19,7 +21,7 @@ using namespace __gnu_pbds;
 #define PI            3.141592653589793238462
 #define MOD7          1000000007
 #define MOD9          998244353
-#define MULTIPLE      1
+#define MULTIPLE      0
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
@@ -64,11 +66,29 @@ void setIO() {
   #endif 
 }
 
-void solve() {
-  ll n, k; cin >> n >> k;
-  vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
+ll c(ll n, ll r, ll m, vector<ll>& factorial, vector<ll>& inverse_factorial){
+  return mod_mul(factorial[n], mod_mul(inverse_factorial[r], inverse_factorial[n-r], m), m);
+}
 
+pair<vector<ll>, vector<ll>> get_fact_inverse(ll upto = 1e7, ll mod = 1e9+7){
+  vector<ll> factorial(upto+1);
+  vector<ll> invfactorial(upto+1);
+  factorial[0] = 1;
+  for (ll i = 1; i <= upto; ++i){
+    factorial[i] = mod_mul(factorial[i-1], i, mod);
+  }
+  invfactorial[upto] = mminvprime(factorial[upto], mod);
+  for (ll i = upto - 1; i >= 0; i--){
+    invfactorial[i] = mod_mul(invfactorial[i+1], i+1, mod);
+  }
+  return {factorial, invfactorial};
+}
+
+void solve() {
+  pair<vector<ll>, vector<ll>> v = get_fact_inverse();
+
+  ll n; cin >> n;
+  cout << c(2*n-1, n, 1e9+7, v.ff, v.ss)*2 - n;
 }
 
 int main(void){

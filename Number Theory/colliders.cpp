@@ -1,3 +1,4 @@
+// https://codeforces.com/problemset/problem/154/B
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -19,7 +20,7 @@ using namespace __gnu_pbds;
 #define PI            3.141592653589793238462
 #define MOD7          1000000007
 #define MOD9          998244353
-#define MULTIPLE      1
+#define MULTIPLE      0
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
@@ -30,7 +31,7 @@ using ull  =          unsigned long long;
 using lld  =          long double;
 using pbds =          tree<pair<int, int>, null_type, less<pair<int, int>>, rb_tree_tag, tree_order_statistics_node_update>;
 
-template <typename T> ostream& operator<<(ostream& os, const vector<T>& v) { for (auto i:v) os << i << " "; return os; }
+template <typename T> ostream& operator<<(ostream& os, const vector<T>& v) { for (auto i:v) os << setw(2) << i << " "; return os; }
 template <typename T, typename U> ostream& operator<<(ostream& os, const pair<T, U>& p) { os << "{" << p.ff << ", " << p.ss << "}"; return os; }
 template <typename T> ostream& operator<<(ostream& os, const set<T>& s) { for (auto i:s) os << i << " "; return os; }
 template <typename T> ostream& operator<<(ostream& os, const multiset<T>& s) { for (auto i:s) os << i << " "; return os; }
@@ -64,11 +65,61 @@ void setIO() {
   #endif 
 }
 
-void solve() {
-  ll n, k; cin >> n >> k;
-  vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
+vector<pair<ll,ll>> get_prime_factors_of(ll n){
+  vector<pair<ll,ll>> factorization;
+  for (ll d = 2; d*d <= n; d++){
+    ll power = 0, x = n;
+    while (n % d == 0){
+      n /= d; power++;
+    }
+    if (x % d == 0) factorization.push_back({d, power});
+  }
+  if (n > 1) factorization.push_back({n,1});
+  return factorization;
+}
 
+vector<vector<pair<ll,ll>>> compute_prime_factors(){
+  vector<vector<pair<ll,ll>>> pfs(1e5+1);
+  for (ll i = 1; i<= 1e5; i++)
+    pfs[i] = get_prime_factors_of(i);
+  return pfs;
+}
+
+void solve() {
+  vector<vector<pair<ll,ll>>> pfs = compute_prime_factors();
+  ll n, m; cin >> n >> m;
+  vector<bool> state(n+1, 0);
+  vector<ll> occupied(n+1, 0);
+
+  // cerr << "  \t";
+  // for (ll i = 0; i <= n; i++) cerr << setw(2) << i << " ";
+  // cerr << "\n";
+  
+  for (ll i = 0; i < m; i++){
+    char op; ll id; cin >> op >> id;
+    if (op == '+'){
+      if (state[id]) cout << "Already on\n";
+      else {
+        ll collision = 0;
+        for (auto i: pfs[id])
+          if (occupied[i.first]) collision = occupied[i.first];
+        if (collision) cout << "Conflict with " << collision << "\n";
+        else {
+          state[id] = 1;
+          cout << "Success\n";
+          for (auto i: pfs[id]) occupied[i.first] = id;
+        }
+      }
+    } else if (op == '-') {
+      if (!state[id]) cout << "Already off\n";
+      else {
+        state[id] = 0;
+        cout << "Success\n";
+        for (auto i: pfs[id]) occupied[i.first] = 0;
+      }
+    }
+    // cerr << op << " " << id << ": \t" << state << "\n";
+  }
 }
 
 int main(void){

@@ -19,6 +19,7 @@ using namespace __gnu_pbds;
 #define PI            3.141592653589793238462
 #define MOD7          1000000007
 #define MOD9          998244353
+#define MULTIPLE      1
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
@@ -40,11 +41,12 @@ ostream& operator<<(ostream& os, const pbds& t) { for (auto i: t) os << i << " "
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 /* -------------------------------------------- */
-ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
+ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1) res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
+ll phi(ll n) { ll res = n; for (ll i = 2; i*i<=n; i++){ if (n%i == 0) { while (n%i == 0) n /= i; res -= res/i; } } if (n > 1) res -= res/n; return res; }
 ll mminvprime(ll a, ll b) {return expo(a, b - 2, b);}
 bool revsort(ll a, ll b) {return a > b;}
 ll combination(ll n, ll r, ll m, ll *fact, ll *ifact) {ll val1 = fact[n]; ll val2 = ifact[n - r]; ll val3 = ifact[r]; return (((val1 * val2) % m) * val3) % m;}
-vector<ll> sieve(int n) {int*arr = new int[n + 1](); vector<ll> vect; for (int i = 2; i <= n; i++) if (arr[i] == 0) { vect.push_back(i); for (int j = 2 * i; j <= n; j += i) arr[j] = 1; } return vect; }
+vector<ll> sieve(int n) {int*arr = new int[n + 1](); vector<ll> listOfPrimes; for (int i = 2; i <= n; i++) if (arr[i] == 0) { listOfPrimes.push_back(i); for (int j = 2 * i; j <= n; j += i) arr[j] = 1; } return listOfPrimes; }
 vector<bool> compute_primes(ll n){ vector<bool> isPrime(n+1, 1); isPrime[0] = isPrime[1] = 0; for (int i = 2; i*i <= n; i++) if (isPrime[i]) for (int j = i*i; j <= n; j+=i) isPrime[j] = 0; return isPrime; }
 
 ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) % m;}
@@ -62,69 +64,21 @@ void setIO() {
   #endif 
 }
 
-struct Interactor {
-  private:
-    vector<ll> hidden; 
-    ll queries, max_limit; bool debug;
-  public:
-    Interactor(vector<ll> hn, 
-    ll limit = 10, bool d = false){ 
-      hidden = hn;
-      queries = 0; max_limit = limit; debug = d; }
-    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
-    void answer(vector<ll>& x){ cout << "! " << x << endl; }
-
-    ll ask(ll l, ll r){
-      #ifndef ONLINE_JUDGE
-        __can_query(); queries++;
-        // TODO: Your Implementation
-        cout << "? " << l+1 << " " << r+1 << "\n";
-        return hidden[l]+hidden[r];
-      #else
-        cout << "? " << l+1 << " " << r+1 << endl;
-        ll x; cin >> x;
-        return x;
-      #endif
-    }
-
-};
-
 void solve() {
-  ll n; cin >> n;
-  vector<ll> h = {4,6,1,5,5};
-  Interactor itr = Interactor(h,n,true);
-  ll left = n;
-  vector<ll> ans(n, 0);
-  for (ll i = 0; i < n; i+=3){
-    if (left < 3){
-      if (left == 1){
-        ll zl = itr.ask(0,i);
-        ans[i] = zl-ans[0];
-        break;
-      }
-      if (left == 2){
-        ll lr = itr.ask(i,i+1);
-        ll zr = itr.ask(0,i+1);
-        ans[i+1] = zr-ans[0];
-        ans[i] = lr-ans[i+1];
-        break;
-      }
-    }
-    ll ab = itr.ask(i,i+1);
-    ll bc = itr.ask(i+1,i+2);
-    ll ac = itr.ask(i,i+2);
-    ll abc = (ab+bc+ac)/2;
-    ans[i+2] = abc-ab; --left;
-    ans[i] = abc-bc; --left;
-    ans[i+1] = abc-ac; --left;
-  }
-  itr.answer(ans);
+  ll n, k; cin >> n >> k;
+  vector<ll> a(n);
+  for(ll i = 0; i < n; i++) cin >> a[i];
+
 }
 
 int main(void){
   setIO();
   auto start = high_resolution_clock::now();
-  solve();
+  ll t = 1;
+  #if MULTIPLE
+    cin >> t;
+  #endif
+  while (t--) solve();
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 

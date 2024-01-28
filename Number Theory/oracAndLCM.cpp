@@ -1,3 +1,5 @@
+// https://codeforces.com/problemset/problem/1349/A
+// 
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -19,7 +21,7 @@ using namespace __gnu_pbds;
 #define PI            3.141592653589793238462
 #define MOD7          1000000007
 #define MOD9          998244353
-#define MULTIPLE      1
+#define MULTIPLE      0
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
@@ -63,12 +65,39 @@ void setIO() {
     freopen("output.txt","w",stdout); 
   #endif 
 }
+vector<pair<ll,ll>> get_prime_factors_of(ll n){
+  vector<pair<ll,ll>> factorization;
+  for (ll d = 2; d*d <= n; d++){
+    ll power = 0, x = n;
+    while (n % d == 0){
+      n /= d; power++;
+    }
+    if (x % d == 0) factorization.push_back({d, power});
+  }
+  if (n > 1) factorization.push_back({n,1});
+  return factorization;
+}
+
+vector<vector<pair<ll,ll>>> compute_prime_factors(ll upto = 1e6){
+  vector<vector<pair<ll,ll>>> pfs(upto+1);
+  for (ll i = 1; i <= upto; i++) pfs[i] = get_prime_factors_of(i);
+  return pfs;
+}
 
 void solve() {
-  ll n, k; cin >> n >> k;
+  vector<vector<pair<ll,ll>>> pfs = compute_prime_factors();
+  ll n; cin >> n;
   vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
+  for (ll i = 0; i < n; i++) cin >> a[i];
 
+  ll lcm = 1;
+  for (ll i = 1; i < 1e6; i++){
+    sort(pfs[i].begin(), pfs[i].end());
+    if (pfs[i].size() < n-1) continue;
+    else {
+      if (pfs[i].size() == n) lcm *= pow(i, )
+    }
+  }
 }
 
 int main(void){

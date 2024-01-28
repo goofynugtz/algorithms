@@ -1,3 +1,5 @@
+// https://codeforces.com/contest/1826/problem/B
+// 
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -65,10 +67,12 @@ void setIO() {
 }
 
 void solve() {
-  ll n, k; cin >> n >> k;
+  ll n; cin >> n;
   vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
-
+  for (ll i = 0; i < n; i++) cin >> a[i];
+  ll x = 0;
+  for (ll i = 0; i < n; i++) x = __gcd(x, abs(a[i]-a[n-i-1]));
+  cout << x << "\n";
 }
 
 int main(void){

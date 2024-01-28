@@ -1,3 +1,5 @@
+// https://cses.fi/problemset/task/1081
+// 
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -19,7 +21,7 @@ using namespace __gnu_pbds;
 #define PI            3.141592653589793238462
 #define MOD7          1000000007
 #define MOD9          998244353
-#define MULTIPLE      1
+#define MULTIPLE      0
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
@@ -65,10 +67,10 @@ void setIO() {
 }
 
 void solve() {
-  ll n, k; cin >> n >> k;
+  ll n; cin >> n;
   vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
-
+  for (ll i = 0; i < n; i++) cin >> a[i];
+  
 }
 
 int main(void){

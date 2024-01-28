@@ -1,3 +1,5 @@
+// https://codeforces.com/problemset/problem/152/C
+// 
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -19,7 +21,7 @@ using namespace __gnu_pbds;
 #define PI            3.141592653589793238462
 #define MOD7          1000000007
 #define MOD9          998244353
-#define MULTIPLE      1
+#define MULTIPLE      0
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
@@ -65,10 +67,19 @@ void setIO() {
 }
 
 void solve() {
-  ll n, k; cin >> n >> k;
-  vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
+  ll n, m; cin >> n >> m;
+  vector<string> a(n);
+  for (ll i = 0; i < n; i++) cin >> a[i];
 
+  const ull mod = 1e9+7;
+  ll sum = 1;
+  set<char> s;
+  for (ll i = 0; i < m; i++){
+    s.clear();
+    for (ll j = 0; j < n; j++) s.insert(a[j][i]);
+    sum = ((sum % mod) * (s.size() % mod)) % mod;
+  }
+  cout << sum << "\n";
 }
 
 int main(void){

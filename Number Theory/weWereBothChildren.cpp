@@ -65,37 +65,20 @@ void setIO() {
   #endif 
 }
 
-struct Interactor {
-  private:
-    vector<ll> hidden; 
-    ll queries, max_limit; bool debug;
-  public:
-    Interactor(vector<ll> hn, 
-    ll limit = 10, bool d = false){ 
-      hidden = hn;
-      queries = 0; max_limit = limit; debug = d; }
-    void __can_query() { if(queries >= max_limit) cout << "Made more than limit queries for " << hidden << endl; assert(queries < max_limit); }
-    void answer(ll x){ cout << "! " << x << endl; }
-
-    ll ask(ll l, ll r){
-      #ifndef ONLINE_JUDGE
-        __can_query(); queries++;
-        // TODO: Your Implementation
-
-      #else
-        cout << "? " << l << " " << r << endl;
-        ll x; cin >> x;
-        return x;
-      #endif
-    }
-
-};
-
 void solve() {
-  ll n, k; cin >> n >> k;
+  ll n; cin >> n;
   vector<ll> a(n);
   for(ll i = 0; i < n; i++) cin >> a[i];
-
+  map<ll,ll> freq;
+  for (auto i: a)
+    if (i <= n) freq[i]++;
+  
+  vector<ll> cnt(n+1, 0);
+  for (ll i = 1; i <= n; i++){
+    for (ll j = i; j <= n; j+=i) cnt[j] += freq[i];
+  }
+  
+  cout << *max_element(all(cnt)) << "\n";
 }
 
 int main(void){
