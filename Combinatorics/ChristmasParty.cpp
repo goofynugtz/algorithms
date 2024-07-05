@@ -1,5 +1,4 @@
 // https://cses.fi/problemset/task/1717
-// 
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -66,43 +65,55 @@ void setIO() {
   #endif 
 }
 
-vector<ll> compute_factorials(ll upto = 1e5){
-  vector<ll> factorial(upto+1);
-  factorial[0] = factorial[1] = 1;
-  for (ll i = 2; i <= upto; ++i) factorial[i] = (i*factorial[i-1]);
-  return factorial;
+ll c(ll n, ll r, ll m, vector<ull>& factorial, vector<ull>& inverse_factorial){
+  return mod_mul(factorial[n], mod_mul(inverse_factorial[r], inverse_factorial[n-r], m), m);
 }
 
-void solve() {
+pair<vector<ll>, vector<ll>> get_fact_inverse(ll upto = 1e6, ll mod = 1e9+7){
+  vector<ll> factorial(upto+1);
+  vector<ll> invfactorial(upto+1);
+  factorial[0] = 1;
+  for (ll i = 1; i <= upto; ++i){
+    factorial[i] = mod_mul(factorial[i-1], i, mod);
+  }
+  invfactorial[upto] = mminvprime(factorial[upto], mod);
+  for (ll i = upto - 1; i >= 0; i--){
+    invfactorial[i] = mod_mul(invfactorial[i+1], i+1, mod);
+  }
+  return {factorial, invfactorial};
+}
+
+ll dearrangement(ll n, vector<ll>& fact, ull mod){
+  ll answer = 0, sign = 1;
+  for (ll i = 2; i <= n; i++){
+    ll modinv = mminvprime(fact[i], mod);
+    if (modinv == 0) break;
+    ll s = mod_mul(fact[n], modinv, mod);
+    if (sign == 1) answer = mod_add(answer, s, mod);
+    else if (sign == -1) answer = mod_sub(answer, s, mod);
+    sign *= -1;
+  }
+  return answer;
+}
+
+void solve(vector<ll>& fact) {
   
   const ull mod = 1e9+7;
 
   ull n; cin >> n;
-  vector<ll> fact = compute_factorials(n);
-  ull answer = 0, sign = 1;
-  for (ll i = 2; i <= n; i++){
-    ll modinv = mminvprime(fact[i], mod);
-    cerr << modinv << "\n";
-    if (modinv == 0) break;
-    ll s = ((fact[n] % mod) * (modinv % mod)) % mod;
-    if (sign == 1)
-      answer = ((answer % mod) + (s % mod)) % mod;
-    else if (sign == -1)
-      answer = ((answer % mod) - (s % mod) + mod) % mod;
-    sign *= -1;
-  }
 
-  cout << answer << "\n";
+  cout << dearrangement(n, fact, 1e9+7) << "\n";
 }
 
 int main(void){
   setIO();
+  pair<vector<ll>,vector<ll>> v = get_fact_inverse();
   auto start = high_resolution_clock::now();
   ll t = 1;
   #if MULTIPLE
     cin >> t;
   #endif
-  while (t--) solve();
+  while (t--) solve(v.ff);
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 

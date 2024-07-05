@@ -1,3 +1,4 @@
+// https://codeforces.com/problemset/problem/1236/B
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -19,7 +20,7 @@ using namespace __gnu_pbds;
 #define PI            3.141592653589793238462
 #define MOD7          1000000007
 #define MOD9          998244353
-#define MULTIPLE      1
+#define MULTIPLE      0
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
@@ -42,6 +43,7 @@ mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 /* -------------------------------------------- */
 ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1) res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
+ll expo(ll a, ll b) {ll res = 1; while (b > 0) {if (b & 1) res = (res * a); a = (a * a); b = b >> 1;} return res;}
 ll phi(ll n) { ll res = n; for (ll i = 2; i*i<=n; i++){ if (n%i == 0) { while (n%i == 0) n /= i; res -= res/i; } } if (n > 1) res -= res/n; return res; }
 ll mminvprime(ll a, ll b) {return expo(a, b - 2, b);}
 bool revsort(ll a, ll b) {return a > b;}
@@ -65,10 +67,9 @@ void setIO() {
 }
 
 void solve() {
-  ll n; cin >> n;
-  vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
-  
+  ll n, m; cin >> n >> m;
+  const ull mod = 1e9+7;
+  cout << expo(expo(2, m, mod)-1, n, mod) << "\n";
 }
 
 int main(void){

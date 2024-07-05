@@ -65,9 +65,9 @@ void setIO() {
 }
 
 void solve() {
-  ll n, k; cin >> n >> k;
-  vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
+  ll x, y; cin >> x >> y;
+  
+  cout << __gcd(x,y) << "\n";
 
 }
 

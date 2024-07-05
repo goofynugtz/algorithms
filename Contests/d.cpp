@@ -65,10 +65,28 @@ void setIO() {
 }
 
 void solve() {
-  ll n, k; cin >> n >> k;
+  ll n; cin >> n;
   vector<ll> a(n);
   for(ll i = 0; i < n; i++) cin >> a[i];
 
+  ll i = 0, j = 0;
+  ll curr = 0;
+  map<ll, ll> m;
+  while (i < n){
+    curr += a[j];
+    if (curr > n){
+      curr = 0;
+      i++;
+      j = i;
+    } else {
+      m[curr]++;
+      j++;
+    }
+  }
+  for (ll i = 1; i <= n; i++){
+    cout << m[i] << " ";
+  }
+  cout << "\n";
 }
 
 int main(void){

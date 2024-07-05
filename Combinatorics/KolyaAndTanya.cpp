@@ -1,5 +1,4 @@
 // https://codeforces.com/problemset/problem/584/B
-// 
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")

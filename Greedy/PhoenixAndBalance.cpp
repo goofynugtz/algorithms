@@ -1,3 +1,4 @@
+// https://codeforces.com/problemset/problem/1348/A
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -21,9 +22,9 @@ using namespace __gnu_pbds;
 #define MOD9          998244353
 #define MULTIPLE      1
 #define fast                    \
-  ios_base::sync_with_stdio(0); \
-  cin.tie(NULL);                \
-  cout.tie(NULL)
+	ios_base::sync_with_stdio(0); \
+	cin.tie(NULL);                \
+	cout.tie(NULL)
 
 using ll   =          long long;
 using ull  =          unsigned long long;
@@ -57,31 +58,29 @@ ll getRandomNumber(ll l, ll r) {return uniform_int_distribution<ll>(l, r)(rng);}
 /* -------------------------------------------- */
 
 void setIO() { 
-  fast; 
-  #ifndef ONLINE_JUDGE 
-    freopen("input.txt","r",stdin); 
-    freopen("output.txt","w",stdout); 
-  #endif 
+	fast; 
+	#ifndef ONLINE_JUDGE 
+		freopen("input.txt","r",stdin); 
+		freopen("output.txt","w",stdout); 
+	#endif 
 }
 
-void solve() {
-  ll n; cin >> n;
-  vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
-  
-}
+class Solution {
+	public:
+		bool canJump(vector<int>& nums) {
+			ll n = nums.size();
+			ll j = nums[0];
+			for (ll i = 0; i < j; i++){
+				ll x = max_element(nums.begin()+i, nums.begin()+j)-nums.begin();
+				j = *max_element(nums.begin()+i, nums.begin()+j);
+				i = x;
+			}
+			if (j == n-1) return true;
+			return false;
+		}
+};
 
 int main(void){
-  setIO();
-  auto start = high_resolution_clock::now();
-  ll t = 1;
-  #if MULTIPLE
-    cin >> t;
-  #endif
-  while (t--) solve();
-  auto stop = high_resolution_clock::now();
-  auto duration = duration_cast<microseconds>(stop - start);
-
-  // cerr << "[!] Total Execution Time: " << duration . count() / 1000 << " ms" << endl;
-  return 0;
+	setIO()
+	return 0;
 }

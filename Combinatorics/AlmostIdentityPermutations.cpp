@@ -1,3 +1,4 @@
+// https://codeforces.com/contest/888/problem/D
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -19,7 +20,7 @@ using namespace __gnu_pbds;
 #define PI            3.141592653589793238462
 #define MOD7          1000000007
 #define MOD9          998244353
-#define MULTIPLE      1
+#define MULTIPLE      0
 #define fast                    \
   ios_base::sync_with_stdio(0); \
   cin.tie(NULL);                \
@@ -28,7 +29,7 @@ using namespace __gnu_pbds;
 using ll   =          long long;
 using ull  =          unsigned long long;
 using lld  =          long double;
-using pbds =          tree<pair<int, int>, null_type, less<pair<int, int>>, rb_tree_tag, tree_order_statistics_node_update>;
+ using pbds =          tree<pair<int, int>, null_type, less<pair<int, int>>, rb_tree_tag, tree_order_statistics_node_update>;
 
 template <typename T> ostream& operator<<(ostream& os, const vector<T>& v) { for (auto i:v) os << i << " "; return os; }
 template <typename T, typename U> ostream& operator<<(ostream& os, const pair<T, U>& p) { os << "{" << p.ff << ", " << p.ss << "}"; return os; }
@@ -64,21 +65,56 @@ void setIO() {
   #endif 
 }
 
-void solve() {
-  ll n; cin >> n;
-  vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
-  
+ll c(ll n, ll r, ll m, vector<ll>& factorial, vector<ll>& inverse_factorial){
+  return mod_mul(factorial[n], mod_mul(inverse_factorial[r], inverse_factorial[n-r], m), m);
+}
+
+pair<vector<ll>, vector<ll>> get_fact_inverse(ll upto = 1e6, ll mod = 1e9+7){
+  vector<ll> factorial(upto+1);
+  vector<ll> invfactorial(upto+1);
+  factorial[0] = 1;
+  for (ll i = 1; i <= upto; ++i){
+    factorial[i] = mod_mul(factorial[i-1], i, mod);
+  }
+  invfactorial[upto] = mminvprime(factorial[upto], mod);
+  for (ll i = upto - 1; i >= 0; i--){
+    invfactorial[i] = mod_mul(invfactorial[i+1], i+1, mod);
+  }
+  return {factorial, invfactorial};
+}
+
+ll dearrangement(ll n, vector<ll>& fact){
+  ll answer = 0, sign = 1;
+  for (ll i = 2; i <= n; i++){
+    ll modinv = mminvprime(fact[i], 1e9+7);
+    if (modinv == 0) break;
+    ll s = fact[n] * modinv;
+    if (sign == 1) answer = answer + s;
+    else if (sign == -1) answer = mod_sub(answer, s, 1e9+7);
+    sign *= -1;
+  }
+  return answer;
+}
+
+void solve(vector<ll>& fact, vector<ll>& invfact) {
+  ll n, k; cin >> n >> k;
+  ll mod = 1e9+7;
+  ll ans = 1;
+  for (ll i = 2; i <= k; i++){
+    ans += dearrangement(i, fact)*c(n, i, mod, fact, invfact);
+  }
+  cout << ans << "\n";
 }
 
 int main(void){
   setIO();
+  pair<vector<ll>,vector<ll>> v = get_fact_inverse();
   auto start = high_resolution_clock::now();
   ll t = 1;
   #if MULTIPLE
     cin >> t;
   #endif
-  while (t--) solve();
+  while (t--) solve(v.ff, v.ss);
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 

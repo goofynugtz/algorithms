@@ -1,3 +1,4 @@
+// 
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -64,21 +65,57 @@ void setIO() {
   #endif 
 }
 
-void solve() {
+pair<vector<ull>, vector<ull>> get_fact_inverse(ull upto = 1e6, ull mod = 1e9+7){
+  vector<ull> factorial(upto+1);
+  vector<ull> invfactorial(upto+1);
+  factorial[0] = 1;
+  for (ull i = 1; i <= upto; ++i){
+    factorial[i] = mod_mul(factorial[i-1], i, mod);
+  }
+  invfactorial[upto] = mminvprime(factorial[upto], mod);
+  for (ll i = upto - 1; i >= 0; i--){
+    invfactorial[i] = mod_mul(invfactorial[i+1], i+1, mod);
+  }
+  return {factorial, invfactorial};
+}
+
+void solve(vector<ull>& fact, vector<ull>& invfact, ull& mod) {
   ll n; cin >> n;
   vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
+
+  ll maxi = -1;
+  for (ll i = 0; i < n; i++){
+    cin >> a[i];
+    maxi = max(maxi, a[i]);
+  }
   
+  ll maxCount = 0;
+  ll maxMinusOneCount = 0;
+
+  for (auto i: a){
+    if (i == maxi) maxCount++;
+    else if (i == maxi-1) maxMinusOneCount++;
+  }
+
+  ll np;
+  if (maxCount > 1){
+    np = fact[n]%mod;
+  } else {
+    np = mod_sub(fact[n], (fact[n]*mminvprime(maxMinusOneCount+1, mod)), mod) ;
+  }
+  cout << np << "\n";
 }
 
 int main(void){
   setIO();
+  ull mod = 998244353;
+  pair<vector<ull>, vector<ull>> v = get_fact_inverse(1e6, mod);
   auto start = high_resolution_clock::now();
   ll t = 1;
   #if MULTIPLE
     cin >> t;
   #endif
-  while (t--) solve();
+  while (t--) solve(v.ff, v.ss, mod);
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);
 

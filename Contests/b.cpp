@@ -65,9 +65,12 @@ void setIO() {
 }
 
 void solve() {
-  ll n, k; cin >> n >> k;
-  vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
+  ll x, y; cin >> x >> y;
+  ll ans = 0;
+  if (x < y) ans = floor(y/(x-1));
+  else if (abs(x-y) <= 1) ans = 1;
+  
+  cout << ans << "\n";
 
 }
 

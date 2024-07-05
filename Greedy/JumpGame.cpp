@@ -1,3 +1,4 @@
+// https://leetcode.com/problems/jump-game/
 // Rahul R, rahulranjan25.rr@gmail.com
 
 #pragma GCC optimize("O3,unroll-loops")
@@ -65,10 +66,10 @@ void setIO() {
 }
 
 void solve() {
-  ll n; cin >> n;
+  ll n, k; cin >> n >> k;
   vector<ll> a(n);
-  for(ll i = 0; i < n; i++) cin >> a[i];
-  
+  for (ll i = 0; i < n; i++) cin >> a[i];
+
 }
 
 int main(void){

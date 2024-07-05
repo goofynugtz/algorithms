@@ -1,4 +1,3 @@
-ab
-aa
-abab
-abcabc
+1 
+1 1 
+1 1 2 
